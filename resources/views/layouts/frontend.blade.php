@@ -1,5 +1,5 @@
-@include('frontend.partials.header')
+@include('partials.header')
 <main>
     @yield('content')
 </main>
-@include('frontend.partials.footer')
+@include('partials.footer')

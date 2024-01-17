@@ -1,19 +1,18 @@
-$(".slider").owlCarousel({
-    loop: true,
-    margin: 10,
-    nav: false,
-    responsive: {
-        0: {
-            items: 1,
-        },
-        600: {
-            items: 1,
-        },
-        1000: {
-            items: 1,
-        },
-    },
-});
+
+function ClinetSlider() {
+    $("#testimonial-slider").owlCarousel({
+        items: 3,
+        itemsDesktop: [1000, 2],
+        itemsDesktopSmall: [979, 2],
+        itemsTablet: [768, 2],
+        itemsMobile: [650, 1],
+        pagination: false,
+        navigation: true,
+        navigationText: ["", ""],
+        autoPlay: true,
+    });
+}
+
 var owl = $(".slider");
 owl.owlCarousel();
 // Go to the next item
@@ -28,26 +27,11 @@ $(".nxtBtn").click(function () {
 });
 
 /*text animation end*/
-
-/*clinet slider animation*/
-$(document).ready(function () {
-    $("#testimonial-slider").owlCarousel({
-        items: 3,
-        itemsDesktop: [1000, 2],
-        itemsDesktopSmall: [979, 2],
-        itemsTablet: [768, 2],
-        itemsMobile: [650, 1],
-        pagination: false,
-        navigation: true,
-        navigationText: ["", ""],
-        autoPlay: true,
-    });
-});
-/*text animation end*/
-
-$(window).load(function () {
+function textAnimation() {
+    console.log($(".post-module"));
     $(".post-module").hover(function () {
-        $(this).find(".description").stop().animate(
+        console.log("hover iner");
+        $(this).find(".description").animate(
             {
                 height: "toggle",
                 opacity: "toggle",
@@ -55,4 +39,6 @@ $(window).load(function () {
             300
         );
     });
-});
+
+}
+

@@ -135,7 +135,7 @@
                             <p><span>gaming -->></span>i would like to Play game in my free times </p>
                             <p><span>sports -->></span>Playing individual sports (criket,football,badminton, etc.)
                             </p>
-                            
+
                             <p><span>technology -->></span>Keeping up with the latest developments in technology</p>
                         </div>
                     </div>
@@ -1050,4 +1050,10 @@
     </div>
 
 </section>
+<script>
+    setTimeout(() => {
+        ClinetSlider()
+        textAnimation()
+    }, 2000);
+</script>
 @endsection
