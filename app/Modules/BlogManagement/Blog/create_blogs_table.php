@@ -13,10 +13,19 @@ return new class extends Migration
     {
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
+            $table->string('blog_category_id')->nullable();
             $table->string('title')->nullable();
-
+            $table->text('description')->nullable();
+            $table->json('tags')->nullable();
+            $table->date('publish_date')->nullable();
+            $table->string('writer')->nullable();
+            $table->string('meta_title')->nullable();
+            $table->string('meta_description')->nullable();
+            $table->string('meta_keywords')->nullable();
+            $table->string('thumbnail_image')->nullable();
+            $table->json('image')->nullable();
+            $table->string('slug', 250)->nullable();
             $table->bigInteger('creator')->unsigned()->nullable();
-            $table->string('slug', 50)->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });

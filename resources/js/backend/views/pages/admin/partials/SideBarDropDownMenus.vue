@@ -1,5 +1,5 @@
 <template>
-    <li :class="`mm-collapse ${is_show && 'mm-active'}`">
+    <li :class="`mm-collapse ${is_show && 'mm-active'}`" style="border: 1px solid rgba(128, 128, 128, 0.267);">
         <a @click.prevent="is_show = !is_show" class="has-arrow" href="#">
             <div class="parent-icon">
                 <i :class="icon"></i>

@@ -12,7 +12,17 @@ class Store
     public static function execute(Validation $request)
     {
         try {
-            if (self::$model::query()->create($request->validated())) {
+            $imageName = 'dummy.png';
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = uploader($image, 'uploads/category');
+            }
+            if (self::$model::query()->create(array_merge(
+                $request->validated(),
+                [
+                    "image" => $imageName,
+                ]
+            ))) {
                 return messageResponse('Item added successfully', 201);
             }
         } catch (\Exception $e) {

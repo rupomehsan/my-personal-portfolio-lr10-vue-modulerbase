@@ -1,6 +1,6 @@
 export default [
     {
-        name: "name",
+        name: "title",
         label: "Enter your  name",
         type: "text",
         value: "",

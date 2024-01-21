@@ -1,7 +1,151 @@
 @extends('layouts.frontend')
 @section('content')
-<div class="wrapper">
-    <x-section-title title="blog details" />
+<div>
+    <style>
+        body {
+            background: #000;
+        }
+
+        #loginPage {
+            width: 100vw;
+            height: 320px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2px;
+            flex-wrap: wrap;
+            overflow: hidden;
+        }
+
+        #loginPage::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(#000, rgba(255, 0, 0, 0.445), #000);
+            animation: animate 5s linear infinite;
+        }
+
+        @keyframes animate {
+            0% {
+                transform: translateY(-30%);
+            }
+
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        #loginPage span {
+            position: relative;
+            display: block;
+            width: calc(6.25vw - 2px);
+            height: calc(6.25vw - 2px);
+            background: #181818;
+            z-index: 2;
+            transition: 1.5s;
+        }
+
+        #loginPage span:hover {
+            background: rgba(255, 1, 1, 0.582);
+            transition: 0s;
+        }
+
+        #loginPage .signin {
+            position: absolute;
+            width: 400px;
+            background: #222;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            border-radius: 4px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 9);
+        }
+
+        #loginPage .signin .content {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        #loginPage .signin .content h2 {
+            font-size: 2em;
+            color: rgb(247, 247, 247);
+            text-transform: uppercase;
+        }
+
+        #loginPage .signin .content .form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        @media (max-width: 900px) {
+            #loginPage span {
+                width: calc(10vw - 2px);
+                height: calc(10vw - 2px);
+            }
+        }
+
+        @media (max-width: 600px) {
+            #loginPage span {
+                width: calc(20vw - 2px);
+                height: calc(20vw - 2px);
+            }
+        }
+
+        div#siteTitle {
+            position: absolute;
+            top: 146px;
+            width: 100%;
+            z-index: 9;
+        }
+    </style>
+    <section id="loginPage"> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span>
+    </section>
+    <div class="row" id="siteTitle">
+        <x-section-title title="Blogs Details" />
+    </div>
     <div class="row my80">
         <div class="col-md-9">
 
@@ -21,7 +165,11 @@
                         <div class=" p-2" style="height:500px;">
                             <!-- <img src="{{asset('')}}" alt=""> -->
                             <div class="h-100 p-0">
-                                <iframe class="w-100 h-100" src="https://www.youtube.com/embed/dTFXufTgfOE" title="Build a Fullstack E-commerce using Next.js (react.js, mongo, tailwind, styled components)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                <iframe class="w-100 h-100" src="https://www.youtube.com/embed/dTFXufTgfOE"
+                                    title="Build a Fullstack E-commerce using Next.js (react.js, mongo, tailwind, styled components)"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen></iframe>
                             </div>
                         </div>
 
@@ -80,7 +228,8 @@
                         <div class="comments">
                             <div class="row justify-content-start align-items-center">
                                 <div class="col-md-2">
-                                    <img class="rounded-circle" style="height:100px; width:100px" src="{{asset('assets/images/profile.JPG')}}" alt="">
+                                    <img class="rounded-circle" style="height:100px; width:100px"
+                                        src="{{asset('assets/images/profile.JPG')}}" alt="">
                                 </div>
                                 <div class="col-md-8 p-0">
                                     <div class="text-white py-3 my-2">
@@ -101,7 +250,8 @@
                             <div class="reply ms-5">
                                 <div class="row justify-content-start align-items-center ">
                                     <div class="col-md-2">
-                                        <img class="rounded-circle" style="height:100px; width:100px" src="{{asset('assets/images/profile.JPG')}}" alt="">
+                                        <img class="rounded-circle" style="height:100px; width:100px"
+                                            src="{{asset('assets/images/profile.JPG')}}" alt="">
                                     </div>
                                     <div class="col-md-8 p-0">
                                         <div class="text-white py-3 my-2">
@@ -129,21 +279,28 @@
                         <h3 class="border text-center py-2 my-2 text-white">WRITE A COMMENT</h3>
                         <div>
                             <form id="contactForm" class="contact100-form p-0 mt-3">
-                                <div class="wrap-input100 rs2-wrap-input100 validate-input mt-20 " data-validate="Type first name">
-                                    <input class="input100" type="text" id="first-name" name="first-name" placeholder="First name">
+                                <div class="wrap-input100 rs2-wrap-input100 validate-input mt-20 "
+                                    data-validate="Type first name">
+                                    <input class="input100" type="text" id="first-name" name="first-name"
+                                        placeholder="First name">
                                     <span class="focus-input100"></span>
                                 </div>
-                                <div class="wrap-input100 rs2-wrap-input100 validate-input mt-20 " data-validate="Type last name">
-                                    <input class="input100" type="text" id="last-name" name="last-name" placeholder="Last name">
+                                <div class="wrap-input100 rs2-wrap-input100 validate-input mt-20 "
+                                    data-validate="Type last name">
+                                    <input class="input100" type="text" id="last-name" name="last-name"
+                                        placeholder="Last name">
                                     <span class="focus-input100"></span>
                                 </div>
-                                <div class="wrap-input100 validate-input mt-20" data-validate="Valid email is required: ex@abc.xyz">
-                                    <input id="email" class="input100" type="email" name="email" placeholder="Enter your email">
+                                <div class="wrap-input100 validate-input mt-20"
+                                    data-validate="Valid email is required: ex@abc.xyz">
+                                    <input id="email" class="input100" type="email" name="email"
+                                        placeholder="Enter your email">
                                     <span class="focus-input100"></span>
                                 </div>
 
                                 <div class="wrap-input100 validate-input mt-20" data-validate="Message is required">
-                                    <textarea id="message" class="input100" name="message" placeholder="Write your comments"></textarea>
+                                    <textarea id="message" class="input100" name="message"
+                                        placeholder="Write your comments"></textarea>
                                     <span class="focus-input100"></span>
                                 </div>
                                 <div class="d-flex justify-content-center align-items-center w-100">

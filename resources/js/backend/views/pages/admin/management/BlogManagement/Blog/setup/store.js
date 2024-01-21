@@ -3,9 +3,10 @@ import { defineStore } from "pinia";
 export const blog_setup_store = defineStore("blog_setup_store", {
     state: () => ({
         all_data: {},
+        all_blog_categories_data: {},
         single_data: {},
         role_data: {},
-        api:"blogs/"
+        api: "blogs/"
     }),
     getters: {
         doubleCount: (state) => state.count * 2,
@@ -23,7 +24,7 @@ export const blog_setup_store = defineStore("blog_setup_store", {
         },
 
         get: async function (id) {
-            let response = await axios.get(this.api+id);
+            let response = await axios.get(this.api + id);
             response = response.data.data;
             this.single_data = response;
         },
@@ -43,7 +44,7 @@ export const blog_setup_store = defineStore("blog_setup_store", {
         delete: async function (id) {
             var data = await window.s_confirm();
             if (data) {
-                let response = await axios.delete(this.api+id);
+                let response = await axios.delete(this.api + id);
                 window.s_alert("Data deleted");
                 this.all();
                 console.log(response.data);
@@ -59,7 +60,11 @@ export const blog_setup_store = defineStore("blog_setup_store", {
 
         // additional function
         // additional function
-
+        get_all_blog_categories: async function () {
+            let response = await axios.get('categories?get_all=1');
+            response = response.data.data;
+            this.all_blog_categories_data = response;
+        },
 
     },
 });

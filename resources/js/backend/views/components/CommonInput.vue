@@ -9,7 +9,7 @@
         </div>
 
         <div v-if="type === 'textarea'" class="mt-1 mb-3">
-            <textarea class="form-control form-control-square" type="text" :name="name" :value="value"
+            <textarea class="form-control form-control-square" rows="10"  type="text" :name="name" :value="value"
                 @change="errorReset"></textarea>
             <div :id="name"></div>
         </div>

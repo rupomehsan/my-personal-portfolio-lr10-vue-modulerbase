@@ -33,7 +33,17 @@ class Validation extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
+            'blog_category_id' => 'sometimes|required',
+            'title' => 'sometimes|required',
+            'description' => 'sometimes|required',
+            'tags' => 'sometimes',
+            'publish_date' => 'sometimes',
+            'writer' => 'sometimes',
+            'meta_title' => 'sometimes',
+            'meta_description' => 'sometimes',
+            'meta_keywords' => 'sometimes',
+            'thumbnail_image' => 'sometimes',
+            'image' => 'sometimes',
             'status' => ['sometimes', Rule::in(['active', 'inactive'])],
         ];
     }

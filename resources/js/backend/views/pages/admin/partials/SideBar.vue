@@ -16,8 +16,8 @@
                     <div class="menu-title">Dashboard</div>
                 </router-link>
             </li>
-            <li class="menu-label">Blog Management</li>
-            <side-bar-drop-down-menus :icon="`fa fa-plus`" :menu_title="`Blog Manage`" :menus="[
+            <!-- <li class="menu-label">Blog Management</li> -->
+            <side-bar-drop-down-menus :icon="`fa fa-plus`" :menu_title="`Blog Management`" :menus="[
                 {
                     route_name: `AllCategory`,
                     title: `Blog Category`,
@@ -27,7 +27,7 @@
                     title: `Blogs`,
                 },
             ]" />
-           
+
 
         </ul>
     </div>

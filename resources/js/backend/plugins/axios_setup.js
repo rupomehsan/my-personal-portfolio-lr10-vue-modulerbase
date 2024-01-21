@@ -67,7 +67,7 @@ window.remove_form_action_classes = function () {
 //     console.log(event.target)
 // }
 
-function errorReset(event){
+function errorReset(event) {
     console.log(event.target)
 }
 
@@ -77,17 +77,19 @@ window.render_form_errors = function (object, selector = "name") {
             const element = object[key];
             // console.log("resss",element);
             let el = document.querySelector(`input[${selector}="${key}`);
+            let txarea = document.querySelector(`textarea[${selector}="${key}`);
             if (!el) {
                 el = document.getElementById(`${key}`);
+            }
+            if (txarea) {
+                el = document.querySelector(`textarea[${selector}="${key}`);
             }
 
             /**
              *  if html element found then take action
              */
             if (el) {
-                $(
-                    `<div class="error text-warning">${element[0]}</div>`
-                ).insertAfter(el);
+                $(`<div class="error text-warning">${element[0]}</div>`).insertAfter(el);
                 el.classList.add("border-warning");
             }
         }
