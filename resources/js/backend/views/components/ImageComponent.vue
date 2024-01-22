@@ -3,8 +3,8 @@
 
         <input @change="preview" class="form-control" type="file" ref="input_files" :accept="accept" :class="classNames"
             :name="name" :multiple="multiple">
-        <div class="uploaded_image_preview my-2 d-flex gap-1 flex-wrap" v-if="images.lenght">
-            <img v-for="i in images" :key="i" :src="i" class="img-fulid img-thumbnail" style="width: 80px; height: 80px;
+        <div class="uploaded_image_preview my-2 d-flex gap-1 flex-wrap" v-show="images?.lenght">
+            <img v-for="image in images" :key="image" :src="image" class="img-fulid img-thumbnail" style="width: 80px; height: 80px;
                 object-fit: contain;">
         </div>
     </div>
@@ -40,9 +40,8 @@ export default {
         }
     },
     created() {
-        if (this.images.lenght && this.images[0] == null) {
-            this.images = []
-        }
+        console.log(this.images);
+
     },
     methods: {
         preview: function () {

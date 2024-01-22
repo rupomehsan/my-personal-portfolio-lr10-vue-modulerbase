@@ -27,9 +27,12 @@
     <link href="{{asset('backend/assets/plugins/metismenu/css/metisMenu.min.css')}}" rel="stylesheet" />
     <!-- Custom Style-->
     <link href="{{asset('backend/assets/css/app-style.css')}}" rel="stylesheet" />
-     <!-- latest jquery-->
-     <script src="/plugins/sweet_alert.js" defer></script>
-     <script src="/backend/assets/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{asset('backend/assets/plugins/summernote/dist/summernote-bs4.css')}}" />
+    <!-- latest jquery-->
+    <script src="/plugins/sweet_alert.js" defer></script>
+    <script src="/backend/assets/js/jquery.min.js"></script>
+    <script src="{{asset('backend/assets/plugins/summernote/dist/summernote-bs4.min.js')}}"></script>
+   
     @vite(['resources/js/backend/app.js'])
 </head>
 

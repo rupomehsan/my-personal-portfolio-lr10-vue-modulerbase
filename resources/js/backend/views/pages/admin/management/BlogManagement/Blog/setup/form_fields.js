@@ -53,7 +53,7 @@ export default [
     },
 
     {
-        name: "image",
+        name: "thumbnail_image",
         label: "Upload image",
         type: "file",
         value: null,
@@ -65,5 +65,6 @@ export default [
         type: "textarea",
         value: "",
     },
+
 
 ];

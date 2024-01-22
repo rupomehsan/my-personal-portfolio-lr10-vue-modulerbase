@@ -14,6 +14,7 @@ import ImageComponent from "../backend/views/components/ImageComponent.vue";
 import Pagination from "../backend/views/components/Pagination.vue";
 import DynamicSelect from '../backend/views/components/DynamicSelect.vue';
 import NestedCategory from '../backend/views/components/NestedCategory.vue';
+import TextEditor from '../backend/views/components/TextEditor.vue';
 // project rotes
 import admin_routes from "./views/pages/admin/partials/routes"
 // roters
@@ -37,7 +38,6 @@ router.beforeEach((to, from, next) => {
     next();
 });
 
-
 // render component
 const pinia = createPinia()
 const app = createApp({});
@@ -48,6 +48,7 @@ app.component("image-component", ImageComponent);
 app.component("pagination", Pagination);
 app.component("dynamicSelect", DynamicSelect);
 app.component("nestedCategory", NestedCategory);
+app.component("textEditor", TextEditor);
 
 app.use(pinia)
 app.use(router);

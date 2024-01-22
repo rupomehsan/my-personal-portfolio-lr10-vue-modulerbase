@@ -12,12 +12,14 @@
                 <div class="card-body">
                     <div class="row">
                         <template v-for="(form_field, index) in form_fields" :key="index">
-                            <div class="col-md-6" :class="form_field.name == 'description' ? 'col-md-12' : ''">
+                            <div class="col-md-6" :class="form_field.type == 'textarea' ? 'col-md-12' : ''">
                                 <common-input :label="form_field.label" :type="form_field.type" :name="form_field.name"
                                     :multiple="form_field.multiple" :value="form_field.value"
                                     :data_list="form_field.data_list" />
                             </div>
                         </template>
+
+
 
                     </div>
                     <div class="form-group">
@@ -38,6 +40,7 @@ import { blog_setup_store } from './setup/store';
 import setup from "./setup";
 import form_fields from "./setup/form_fields";
 
+
 export default {
     data: () => ({
         route_prefix: '',
@@ -55,6 +58,7 @@ export default {
         if (this.all_blog_categories_data && this.all_blog_categories_data.length) {
             this.all_blog_categories_data.forEach((data) => {
                 this.form_fields.forEach((field) => {
+                    field.data_list = []
                     if (field.name == 'blog_category_id') {
                         let dataList = {}
                         dataList.label = data.title,
@@ -65,6 +69,8 @@ export default {
             })
         }
 
+
+
         if (id) {
             this.param_id = id;
             await this.get_single_data(id);
@@ -73,6 +79,9 @@ export default {
                     Object.entries(this.single_data).forEach((value) => {
                         if (field.name == value[0]) {
                             this.form_fields[index].value = value[1];
+                        }
+                        if (field.name == 'description' && value[0] == 'description') {
+                            $('#description').summernote('code', value[1]);
                         }
 
 
@@ -84,6 +93,9 @@ export default {
                 item.value = "";
             });
         }
+
+      
+
     },
     methods: {
         ...mapActions(blog_setup_store, {
@@ -97,12 +109,14 @@ export default {
 
         submitHandler: async function ($event) {
             if (this.param_id) {
+                this.setSummerEditor()
                 let response = await this.update_data($event.target, this.param_id);
                 if (response.data.status === "success") {
                     window.s_alert(response.data.message);
                     this.$router.push({ name: `All${this.route_prefix}` });
                 }
             } else {
+                this.setSummerEditor()
                 let response = await this.store_data($event.target);
                 if (response.data.status === "success") {
                     window.s_alert(response.data.message);
@@ -110,6 +124,14 @@ export default {
                 }
             }
         },
+
+        setSummerEditor() {
+            var markupStr = $('#description').summernote('code');
+            var target = document.createElement('input');
+            target.setAttribute('name', 'description');
+            target.value = markupStr;
+            document.getElementById('description').appendChild(target);
+        }
 
 
     },

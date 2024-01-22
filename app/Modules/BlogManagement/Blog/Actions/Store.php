@@ -4,6 +4,7 @@ namespace App\Modules\BlogManagement\Blog\Actions;
 
 use App\Modules\BlogManagement\Blog\Actions\Validation;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class Store
 {
@@ -12,7 +13,18 @@ class Store
     public static function execute(Validation $request)
     {
         try {
-            if (self::$model::query()->create($request->validated())) {
+            $imageName = 'dummy.png';
+            if ($request->hasFile('thumbnail_image')) {
+                $image = $request->file('thumbnail_image');
+                $currentDate = now()->format('Y/m');
+                $imageName = Storage::disk('public')->put("uploads/blog/{$currentDate}", $image);
+            }
+            if (self::$model::query()->create(array_merge(
+                $request->validated(),
+                [
+                    "thumbnail_image" => $imageName,
+                ]
+            ))) {
                 return messageResponse('Item added successfully', 201);
             }
         } catch (\Exception $e) {

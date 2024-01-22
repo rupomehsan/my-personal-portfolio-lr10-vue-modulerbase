@@ -9,12 +9,12 @@
         </div>
 
         <div v-if="type === 'textarea'" class="mt-1 mb-3">
-            <textarea class="form-control form-control-square" rows="10"  type="text" :name="name" :value="value"
-                @change="errorReset"></textarea>
-            <div :id="name"></div>
+            <!-- <textarea class="form-control form-control-square" rows="10"  type="text" :name="name" :value="value"
+                @change="errorReset"></textarea> -->
+            <!-- <div :id="name"></div> -->
+            <text-editor :name="name" />
+
         </div>
-
-
 
         <div v-if="type === 'select'" class="mt-1 mb-3">
             <select :name="name" class="form-control" :id="name" @change="errorReset">
@@ -32,10 +32,12 @@
 </template>
 
 <script>
+import TextEditor from './TextEditor.vue';
 /**
  * props:
  */
 export default {
+    components: { TextEditor },
     props: {
         name: {
             required: true,
@@ -73,6 +75,13 @@ export default {
             }
         },
     },
+
+    created() {
+        setTimeout(function () {
+            console.log(this.value);
+        }, 1000)
+    }
+
 
 };
 </script>
