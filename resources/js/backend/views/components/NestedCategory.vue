@@ -1,12 +1,9 @@
 <template>
     <div>
-        <!-- <div>{{ children }}</div> -->
-        <template v-for="item in children" :key="item.id">
-
+        <!-- <div v-for="item in children">{{ item.id }}</div> -->
+        <!-- <template v-for="item in children" :key="item.id">
             <ul class="list">
-                <div class="left_line" style="height: 200px;"></div>
-
-
+                <div class="left_line"></div>
                 <li>
                     <div class="details">
                         <input type="radio" name="parent_id" class="form-check-input" :checked="item.id == child_parent_id"
@@ -14,19 +11,12 @@
                         <div class="title">
                             {{ item.title }}
                         </div>
-                        <div v-if="item.child_cateogories.length" class="collpse"><i class="fa fa-plus fa-minus"></i></div>
+                        <div v-if="item.child_cateogories?.length" class="collpse"><i class="fa fa-plus fa-minus"></i></div>
                     </div>
                     <nested-category :children="item.child_cateogories"></nested-category>
                 </li>
             </ul>
-        </template>
-
-
-        <!-- <li class="border my-2">
-                    <input class="mx-2" name="parent_id" :checked="item.id == child_parent_id" :value="item.id"
-                        type="radio">-- {{ item.title }}
-                    <nested-category :children="item.child_cateogories"></nested-category>
-                </li> -->
+        </template> -->
     </div>
 </template>
 

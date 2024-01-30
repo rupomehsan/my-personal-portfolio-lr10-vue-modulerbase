@@ -21,15 +21,12 @@ class Update
                 $currentDate = now()->format('Y/m');
                 $imageName = Storage::disk('public')->put("uploads/blog/{$currentDate}", $image);
             }
-            if (self::$model::query()->create(array_merge(
+            $data->update(array_merge(
                 $request->validated(),
                 [
                     "thumbnail_image" => $imageName,
                 ]
-            ))) {
-                return messageResponse('Item added successfully', 201);
-            }
-            $data->update($request->validated());
+            ));
             return messageResponse('Item updated successfully');
         } catch (\Exception $e) {
             return messageResponse($e->getMessage(), 500, 'server_error');

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('blog_category_id')->nullable();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
-            $table->json('tags')->nullable();
+            $table->text('tags')->nullable();
             $table->date('publish_date')->nullable();
             $table->string('writer')->nullable();
             $table->string('meta_title')->nullable();
@@ -24,8 +24,11 @@ return new class extends Migration
             $table->string('meta_keywords')->nullable();
             $table->string('thumbnail_image')->nullable();
             $table->json('image')->nullable();
+            $table->string('blog_type')->nullable();
+            $table->string('url')->nullable();
             $table->string('slug', 250)->nullable();
             $table->bigInteger('creator')->unsigned()->nullable();
+            $table->enum('privecy_status', ['public', 'private'])->default('public');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });

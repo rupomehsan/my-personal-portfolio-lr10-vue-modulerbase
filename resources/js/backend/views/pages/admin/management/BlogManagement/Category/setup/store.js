@@ -5,7 +5,7 @@ export const category_setup_store = defineStore("category_setup_store", {
         all_data: {},
         single_data: {},
         role_data: {},
-        api:"categories/"
+        api: "categories/"
     }),
     getters: {
         doubleCount: (state) => state.count * 2,
@@ -23,9 +23,14 @@ export const category_setup_store = defineStore("category_setup_store", {
         },
 
         get: async function (id) {
-            let response = await axios.get(this.api+id);
+            let response = await axios.get(this.api + id);
             response = response.data.data;
             this.single_data = response;
+        },
+        get_all_categories: async function () {
+            let response = await axios.get(this.api + '?get_all=1');
+            response = response.data.data;
+            this.all_data = response;
         },
 
         store: async function (form) {
@@ -43,7 +48,7 @@ export const category_setup_store = defineStore("category_setup_store", {
         delete: async function (id) {
             var data = await window.s_confirm();
             if (data) {
-                let response = await axios.delete(this.api+id);
+                let response = await axios.delete(this.api + id);
                 window.s_alert("Data deleted");
                 this.all();
                 console.log(response.data);

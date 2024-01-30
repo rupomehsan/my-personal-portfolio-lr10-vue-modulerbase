@@ -44,6 +44,9 @@ class Validation extends FormRequest
             'meta_keywords' => 'sometimes',
             'thumbnail_image' => 'sometimes',
             'image' => 'sometimes',
+            'blog_type' => 'sometimes',
+            'url' => 'sometimes',
+            'privecy_status' => ['sometimes', Rule::in(['public', 'private'])],
             'status' => ['sometimes', Rule::in(['active', 'inactive'])],
         ];
     }

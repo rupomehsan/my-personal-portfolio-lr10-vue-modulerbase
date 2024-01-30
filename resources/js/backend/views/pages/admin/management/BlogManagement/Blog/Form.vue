@@ -18,9 +18,6 @@
                                     :data_list="form_field.data_list" />
                             </div>
                         </template>
-
-
-
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-light btn-square px-5"><i class="icon-lock"></i>
@@ -49,6 +46,8 @@ export default {
     }),
     created: async function () {
 
+
+
         let id = this.$route.query.id;
         this.route_prefix = setup.route_prefix;
 
@@ -58,8 +57,8 @@ export default {
         if (this.all_blog_categories_data && this.all_blog_categories_data.length) {
             this.all_blog_categories_data.forEach((data) => {
                 this.form_fields.forEach((field) => {
-                    field.data_list = []
                     if (field.name == 'blog_category_id') {
+                        field.data_list = []
                         let dataList = {}
                         dataList.label = data.title,
                             dataList.value = data.id
@@ -94,7 +93,7 @@ export default {
             });
         }
 
-      
+
 
     },
     methods: {
@@ -147,3 +146,5 @@ export default {
 
 }
 </script>
+
+

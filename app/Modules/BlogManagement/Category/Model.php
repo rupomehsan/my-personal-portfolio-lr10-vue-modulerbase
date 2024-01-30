@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 
 class Model extends EloquentModel
 {
+    static $model = \App\Modules\BlogManagement\Category\Model::class;
+
     protected $table = "categories";
     protected $guarded = [];
 
@@ -23,5 +25,10 @@ class Model extends EloquentModel
     public function scopeActive($q)
     {
         return $q->where('status', 'active');
+    }
+
+    public function child_cateogories()
+    {
+        return $this->hasMany(self::$model, 'parent_id');
     }
 }

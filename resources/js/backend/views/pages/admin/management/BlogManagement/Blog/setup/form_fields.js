@@ -7,6 +7,7 @@ export default [
         multiple: false,
         data_list: [],
     },
+
     {
         name: "title",
         label: "Enter your title",
@@ -14,7 +15,30 @@ export default [
         value: "",
     },
 
+    {
+        name: "blog_type",
+        label: "Select blog type",
+        type: "select",
+        value: "",
+        multiple: false,
+        data_list: [
+            {
+                "label": "Youtube link",
+                "value": "Youtube_link",
+            },
+            {
+                "label": "Vidio Url",
+                "value": "Vidio_Url",
+            },
 
+        ],
+    },
+    {
+        name: "url",
+        label: "Enter your url",
+        type: "text",
+        value: "",
+    },
     {
         name: "tags",
         label: "Enter your  tag",
@@ -54,10 +78,27 @@ export default [
 
     {
         name: "thumbnail_image",
-        label: "Upload image",
+        label: "Upload thumbnail image",
         type: "file",
         value: null,
         multiple: false
+    },
+    {
+        name: "privecy_status",
+        label: "Privecy status",
+        type: "select",
+        value: null,
+        multiple: false,
+        data_list: [
+            {
+                label: 'Private',
+                value: 'private',
+            },
+            {
+                label: 'Public',
+                value: 'public',
+            }
+        ]
     },
     {
         name: "description",
@@ -65,6 +106,7 @@ export default [
         type: "textarea",
         value: "",
     },
+
 
 
 ];

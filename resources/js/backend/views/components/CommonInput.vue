@@ -4,8 +4,14 @@
             {{ label || name }}
         </label>
         <div v-if="['text', 'number', 'password', 'email', 'date', 'month'].includes(type)" class="mt-1 mb-3">
-            <input class="form-control form-control-square mb-2" :type="type" :name="name" :id="name" :value="value"
-                @change="errorReset" />
+            <template v-if="name == 'tags'">
+                <input type="text" class="form-control" :value="value" :name="name" data-role="tagsinput">
+            </template>
+            <template v-else>
+                <input class="form-control form-control-square mb-2" :type="type" :name="name" :id="name" :value="value"
+                    @change="errorReset" />
+            </template>
+
         </div>
 
         <div v-if="type === 'textarea'" class="mt-1 mb-3">
@@ -38,6 +44,9 @@ import TextEditor from './TextEditor.vue';
  */
 export default {
     components: { TextEditor },
+    data: () => ({
+        tags: ''
+    }),
     props: {
         name: {
             required: true,
@@ -63,6 +72,7 @@ export default {
             required: false,
             type: Array,
         },
+        
     },
 
     methods: {
@@ -75,15 +85,83 @@ export default {
             }
         },
     },
-
-    created() {
-        setTimeout(function () {
-            console.log(this.value);
-        }, 1000)
+    created: async function () {
+        // this.tags = this.value
+        console.log(this.value);
+        // setTimeout(() => {
+        //     console.log(this.tags);
+        // }, 1000)
     }
+
 
 
 };
 </script>
 
-<style></style>
+<style>
+.bootstrap-tagsinput {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 0px solid #ccc;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    display: inline-block;
+    padding: 4px 6px;
+    color: #555;
+    vertical-align: middle;
+    border-radius: 4px;
+    width: 100%;
+    line-height: 22px;
+    cursor: text;
+}
+
+.bootstrap-tagsinput input {
+    border: none;
+    box-shadow: none;
+    outline: none;
+    background-color: transparent;
+    padding: 0 6px;
+    margin: 0;
+    color: #fff;
+    width: auto;
+    max-width: inherit;
+}
+
+.bootstrap-tagsinput.form-control input::-moz-placeholder {
+    color: #777;
+    opacity: 1;
+}
+
+.bootstrap-tagsinput.form-control input:-ms-input-placeholder {
+    color: #777;
+}
+
+.bootstrap-tagsinput.form-control input::-webkit-input-placeholder {
+    color: #777;
+}
+
+.bootstrap-tagsinput input:focus {
+    border: none;
+    box-shadow: none;
+}
+
+.bootstrap-tagsinput .tag {
+    margin-right: 2px;
+}
+
+.bootstrap-tagsinput .tag [data-role="remove"] {
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.bootstrap-tagsinput .tag [data-role="remove"]:after {
+    content: "x";
+    padding: 0px 2px;
+}
+
+.bootstrap-tagsinput .tag [data-role="remove"]:hover {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.bootstrap-tagsinput .tag [data-role="remove"]:hover:active {
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+</style>

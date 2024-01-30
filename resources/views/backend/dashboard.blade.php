@@ -32,7 +32,7 @@
     <script src="/plugins/sweet_alert.js" defer></script>
     <script src="/backend/assets/js/jquery.min.js"></script>
     <script src="{{asset('backend/assets/plugins/summernote/dist/summernote-bs4.min.js')}}"></script>
-   
+    <script src="{{asset('backend/assets/plugins/inputtags/js/bootstrap-tagsinput.js')}}"></script>
     @vite(['resources/js/backend/app.js'])
 </head>
 

@@ -3,9 +3,10 @@
 
         <input @change="preview" class="form-control" type="file" ref="input_files" :accept="accept" :class="classNames"
             :name="name" :multiple="multiple">
+
         <div class="uploaded_image_preview my-2 d-flex gap-1 flex-wrap" v-show="images?.lenght">
-            <img v-for="image in images" :key="image" :src="image" class="img-fulid img-thumbnail" style="width: 80px; height: 80px;
-                object-fit: contain;">
+            <img v-for="image in images" :key="image" :src="image" :class="image != '' ? 'border' : ''" style="width: 200px; height: 80px;
+                object-fit: contain;" alt="image" target="_black">
         </div>
     </div>
 </template>
@@ -36,12 +37,11 @@ export default {
     }),
     watch: {
         images: function (v) {
+            console.log(v);
             this.component_images = this.images;
         }
     },
     created() {
-        console.log(this.images);
-
     },
     methods: {
         preview: function () {

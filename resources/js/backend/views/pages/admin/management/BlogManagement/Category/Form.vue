@@ -16,6 +16,7 @@
                                 :multiple="form_field.multiple" :value="form_field.value"
                                 :data_list="form_field.data_list" />
                         </div>
+                        <nested-category :children="children" :child_parent_id="child_parent_id" />
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-light btn-square px-5"><i class="icon-lock"></i>
@@ -35,16 +36,27 @@ import { category_setup_store } from './setup/store';
 import setup from "./setup";
 import form_fields from "./setup/form_fields";
 
+
 export default {
     data: () => ({
         route_prefix: '',
         form_fields,
         param_id: null,
+        children: [],
+        child_parent_id: null
     }),
     created: async function () {
         let id = this.$route.query.id;
         this.route_prefix = setup.route_prefix;
-        await this.get_all_data()
+        await this.get_all_categories()
+
+        if (this.all_data) {
+            this.children = []
+            this.all_data.forEach((item) => {
+                this.children.push(item)
+            })
+        }
+
         if (id) {
             this.param_id = id;
             await this.get_single_data(id);
@@ -54,8 +66,6 @@ export default {
                         if (field.name == value[0]) {
                             this.form_fields[index].value = value[1];
                         }
-
-
                     });
                 });
             }
@@ -67,7 +77,7 @@ export default {
     },
     methods: {
         ...mapActions(category_setup_store, {
-            get_all_data: 'all',
+            get_all_categories: 'get_all_categories',
             get_single_data: 'get',
             store_data: 'store',
             update_data: 'update',
