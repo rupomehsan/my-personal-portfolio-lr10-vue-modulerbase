@@ -7,13 +7,14 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
+     php artisan migrate --path="App\Modules\BlogManagement\Blog\create_blogs_table.php"
      * Run the migrations.
      */
     public function up(): void
     {
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
-            $table->string('blog_category_id')->nullable();
+            $table->json('blog_category_id')->nullable();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->text('tags')->nullable();

@@ -5,10 +5,16 @@ namespace App\Modules\BlogManagement\Blog;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Support\Str;
 
+
 class Model extends EloquentModel
 {
+    static $model = \App\Modules\BlogManagement\Category\Model::class;
+
     protected $table = "blogs";
     protected $guarded = [];
+    protected $casts = [
+        'blog_category_id' => 'array'
+    ];
 
     protected static function booted()
     {
@@ -23,5 +29,10 @@ class Model extends EloquentModel
     public function scopeActive($q)
     {
         return $q->where('status', 'active');
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(self::$model, 'blog_category_id');
     }
 }

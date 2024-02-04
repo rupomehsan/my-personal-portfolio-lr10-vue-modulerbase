@@ -11,6 +11,21 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group"><label for="">Select category</label>
+                                <div class="mt-1 mb-3">
+                                    <div class="form-control form-control-square mb-2 " style="height: auto;" type="text"
+                                        id="blog_category_id" @click="modal_show = !modal_show">
+                                        <template v-for="item in set_categories_data" :key="item.id">
+                                            <div class="border d-inline-block m-1 ">
+                                                <span class="px-1">{{ item.name }}</span>
+                                                <i aria-hidden="true" class="fa fa-close border-left px-1 c-pointer"></i>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <template v-for="(form_field, index) in form_fields" :key="index">
                             <div class="col-md-6" :class="form_field.type == 'textarea' ? 'col-md-12' : ''">
                                 <common-input :label="form_field.label" :type="form_field.type" :name="form_field.name"
@@ -25,9 +40,37 @@
                     </div>
                 </div>
             </div>
-
         </form>
-
+        <div class="modal" :class="modal_show ? 'd-block show' : ''" id="largesizemodal">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Select categories</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" @click="modal_show = false">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group full_width category_card_dropdown custom_scroll">
+                            <label for="" class="mb-2">Select Category</label>
+                            <ul class="list">
+                                <div class="left_line"></div>
+                                <nested-category :children="children" :child_parent_id="child_parent_id"
+                                    :type="'checkbox'" />
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-dismiss="modal" @click="modal_show = false"><i
+                                class="fa fa-times"></i>
+                            Close</button>
+                        <button type="button" @click="modal_show = false" class="btn btn-white"><i
+                                class="fa fa-check-square-o"></i> Save
+                            changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -43,6 +86,9 @@ export default {
         route_prefix: '',
         form_fields,
         param_id: null,
+        modal_show: false,
+        children: [],
+        child_parent_id: null
     }),
     created: async function () {
 
@@ -53,6 +99,13 @@ export default {
 
         await this.get_all_blog_categories()
         await this.get_all_data()
+
+        if (this.all_blog_categories_data) {
+            this.children = []
+            this.all_blog_categories_data.forEach((item) => {
+                this.children.push(item)
+            })
+        }
 
         if (this.all_blog_categories_data && this.all_blog_categories_data.length) {
             this.all_blog_categories_data.forEach((data) => {
@@ -93,10 +146,9 @@ export default {
             });
         }
 
-
-
     },
     methods: {
+
         ...mapActions(blog_setup_store, {
             get_all_data: 'all',
             get_single_data: 'get',
@@ -116,6 +168,7 @@ export default {
                 }
             } else {
                 this.setSummerEditor()
+                
                 let response = await this.store_data($event.target);
                 if (response.data.status === "success") {
                     window.s_alert(response.data.message);
@@ -130,8 +183,7 @@ export default {
             target.setAttribute('name', 'description');
             target.value = markupStr;
             document.getElementById('description').appendChild(target);
-        }
-
+        },
 
     },
 
@@ -140,6 +192,7 @@ export default {
             single_data: "single_data",
             all_data: 'all_data',
             all_blog_categories_data: 'all_blog_categories_data',
+            set_categories_data: 'set_categories_data',
         }),
     },
 

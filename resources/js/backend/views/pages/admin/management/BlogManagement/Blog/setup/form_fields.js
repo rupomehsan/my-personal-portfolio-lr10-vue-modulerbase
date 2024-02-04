@@ -1,12 +1,5 @@
 export default [
-    {
-        name: "blog_category_id",
-        label: "Select category",
-        type: "select",
-        value: "",
-        multiple: false,
-        data_list: [],
-    },
+
 
     {
         name: "title",

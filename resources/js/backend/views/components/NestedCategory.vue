@@ -1,31 +1,53 @@
 <template>
-    <div>
-        <!-- <div v-for="item in children">{{ item.id }}</div> -->
-        <!-- <template v-for="item in children" :key="item.id">
-            <ul class="list">
-                <div class="left_line"></div>
-                <li>
-                    <div class="details">
-                        <input type="radio" name="parent_id" class="form-check-input" :checked="item.id == child_parent_id"
-                            :value="item.id" />
-                        <div class="title">
-                            {{ item.title }}
-                        </div>
-                        <div v-if="item.child_cateogories?.length" class="collpse"><i class="fa fa-plus fa-minus"></i></div>
-                    </div>
-                    <nested-category :children="item.child_cateogories"></nested-category>
-                </li>
-            </ul>
-        </template> -->
-    </div>
+    <li v-for="item in children" :key="item.id">
+        <div class="details">
+            <input :type="type" :name="type == 'radio' ? 'parent_id' : 'blog_category_id[]'"
+                :class="type == 'radio' ? 'form-check-input' : ''" :value="item.id"
+                @click="type == 'checkbox' ? setCategory(item) : ''">
+            <div class="title">
+                {{ item.title }}
+            </div>
+            <div class="collpse" v-if="item.child_cateogories?.length" @click="showSubCategory"><i
+                    class="fa fa-minus fa-plus"></i>
+            </div>
+        </div>
+        <ul class="list " v-if="item.child_cateogories?.length">
+            <div class="left_line"></div> <!---->
+            <nested-category :children="item.child_cateogories" :type="type"></nested-category>
+        </ul>
+    </li>
 </template>
 
 <script>
+import { mapActions, mapState } from 'pinia'
+import { blog_setup_store } from '../pages/admin/management/BlogManagement/Blog/setup/store';
+
 export default {
+
     props: [
         "children",
-        "child_parent_id"
-    ]
+        "child_parent_id",
+        "type",
+    ],
+
+    methods: {
+        ...mapActions(blog_setup_store, {
+            set_categories: 'set_categories',
+        }),
+        showSubCategory() {
+            let target = event.target
+            target.parentNode.parentNode.nextSibling.classList.toggle('d-block');
+        },
+        setCategory: function (item) {
+            this.set_categories(item)
+        }
+    },
+    computed: {
+        ...mapState(blog_setup_store, {
+            set_categories_data: 'set_categories_data',
+        }),
+    },
+
 }
 </script>
 
@@ -156,12 +178,12 @@ export default {
 
 .category_card_dropdown .list li>ul {
     display: none;
-    padding-left: 45px;
+    padding-left: 29px;
 }
 
 .category_card_dropdown .list li>ul .left_line {
-    left: 16px;
-    top: -11px;
+    left: 0px;
+    top: -8px;
 }
 
 .category_card_dropdown .list li .form-check-input {

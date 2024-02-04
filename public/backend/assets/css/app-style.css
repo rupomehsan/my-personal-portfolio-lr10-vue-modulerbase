@@ -195,6 +195,14 @@ h6 {
     color: #ffffff;
 }
 
+.auto {
+    cursor: auto;
+}
+
+.c-pointer {
+    cursor: pointer;
+}
+
 code {
     font-size: 87.5%;
     color: #ffed16;

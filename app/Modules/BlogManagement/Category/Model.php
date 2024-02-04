@@ -29,6 +29,6 @@ class Model extends EloquentModel
 
     public function child_cateogories()
     {
-        return $this->hasMany(self::$model, 'parent_id');
+        return $this->hasMany(self::$model, 'parent_id')->with('child_cateogories');
     }
 }

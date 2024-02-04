@@ -16,7 +16,21 @@
                                 :multiple="form_field.multiple" :value="form_field.value"
                                 :data_list="form_field.data_list" />
                         </div>
-                        <nested-category :children="children" :child_parent_id="child_parent_id" />
+                        <div class="form-group full_width category_card_dropdown custom_scroll">
+                            <label for="" class="mb-2">Select Parent Category</label>
+                            <ul class="list">
+                                <div class="left_line"></div>
+                                <li>
+                                    <div class="details"><input type="radio" name="parent_id" checked="checked"
+                                            class="form-check-input">
+                                        <div class="title">
+                                            No parent
+                                        </div>
+                                    </div>
+                                </li>
+                                <nested-category :children="children" :child_parent_id="child_parent_id" :type="'radio'" />
+                            </ul>
+                        </div>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-light btn-square px-5"><i class="icon-lock"></i>
@@ -24,9 +38,7 @@
                     </div>
                 </div>
             </div>
-
         </form>
-
     </div>
 </template>
 

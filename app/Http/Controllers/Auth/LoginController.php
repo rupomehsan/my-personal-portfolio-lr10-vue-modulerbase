@@ -83,6 +83,7 @@ class LoginController extends Controller
         }
 
         $check_auth_user = User::where('email', $request->email)->first();
+        
 
         if ($check_auth_user && Hash::check($request->password, $check_auth_user->password)) {
             DB::table('oauth_access_tokens')->where("user_id", $check_auth_user->id)->update(['revoked' => 1]);

@@ -1,48 +1,24 @@
 <template>
     <div>
         <ul class="d-flex mb-1 flex-wrap gap-2">
-            <li
-                :class="{ active: selected.title == item.title }"
-                class="btn btn-sm btn-outline-info px-1"
-                v-for="(item, index) in component_data"
-                :key="index"
-            >
-                <div
-                    class="d-flex gap-3 align-items-baseline px-1 justify-content-between"
-                >
+            <li :class="{ active: selected.title == item.title }" class="btn btn-sm btn-outline-info px-1"
+                v-for="(item, index) in component_data" :key="index">
+                <div class="d-flex gap-3 align-items-baseline px-1 justify-content-between">
                     <span @click="edit(item)">
                         {{ item.title }}
                     </span>
-                    <i
-                        @click="remove(index)"
-                        class="icon-close text-danger"
-                    ></i>
+                    <i @click="remove(index)" class="icon-close text-danger"></i>
                 </div>
             </li>
         </ul>
-        <input
-            v-on:keydown.enter="onEnter"
-            ref="input_form"
-            v-model="input_value"
-            type="text"
-            class="form-control position-relative"
-            @click="show = !show"
-        />
+        <input v-on:keydown.enter="onEnter" ref="input_form" v-model="input_value" type="text"
+            class="form-control position-relative" @click="show = !show" />
         <div v-if="selectType == 'checkbox'">
             <ul class="select-tools position-absolute" v-if="show">
-                <li
-                    class=""
-                    v-for="(item, index) in search_result"
-                    :key="index"
-                    @click="selectData(item)"
-                >
+                <li class="" v-for="(item, index) in search_result" :key="index" @click="selectData(item)">
                     <label :for="'select-' + index">
                         <span class="mx-2">
-                            <input
-                                :checked="isExist(item)"
-                                :id="'select-' + index"
-                                type="checkbox"
-                            />
+                            <input :checked="isExist(item)" :id="'select-' + index" type="checkbox" />
                         </span>
                         <span>
                             {{ item.title }}
@@ -104,9 +80,7 @@ export default {
                     this.search_result = this.sourceData;
                     return 0;
                 }
-                this.search_result = this.sourceData.filter((i) =>
-                    i.title.toLowerCase().includes(v.toLowerCase())
-                );
+                this.search_result = this.sourceData.filter((i) => i.title.toLowerCase().includes(v.toLowerCase()));
             },
             deep: true,
         },
