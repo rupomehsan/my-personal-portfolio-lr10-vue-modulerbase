@@ -7,6 +7,7 @@ export const blog_setup_store = defineStore("blog_setup_store", {
         single_data: {},
         role_data: {},
         set_categories_data: [],
+        set_blog_tags: [],
         api: "blogs/"
     }),
     getters: {
@@ -33,8 +34,8 @@ export const blog_setup_store = defineStore("blog_setup_store", {
         store: async function (form) {
             let formData = new FormData(form);
             let final_category = this.set_categories_data.map(item => item.id)
-            console.log(final_category);
             formData.append('blog_category_id', JSON.stringify(final_category))
+            formData.append('tags', JSON.stringify(this.set_blog_tags))
             let response = await axios.post(this.api, formData);
             return response;
         },
@@ -81,6 +82,15 @@ export const blog_setup_store = defineStore("blog_setup_store", {
                 };
                 this.set_categories_data.push(categoryData);
             }
+        },
+        set_tags: async function (item) {
+            let is_exist = this.set_blog_tags.some(data => data === item);
+            if (!is_exist) {
+                this.set_blog_tags.push(item);
+            }
+        },
+        remove_tag: async function (item) {
+            this.set_blog_tags = this.set_blog_tags.filter(data => data != item);
         }
 
     },

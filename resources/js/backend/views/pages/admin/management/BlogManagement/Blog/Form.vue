@@ -14,14 +14,13 @@
                         <div class="col-md-6">
                             <div class="form-group"><label for="">Select category</label>
                                 <div class="mt-1 mb-3">
-                                    <div class="form-control form-control-square mb-2 " style="height: auto;" type="text"
-                                        id="blog_category_id" @click="modal_show = !modal_show">
+                                    <div class="form-control form-control-square mb-2 h-25 bootstrap-tagsinput" style="min-height: 40px;"
+                                        type="text" id="blog_category_id" @click="modal_show = !modal_show">
                                         <template v-for="item in set_categories_data" :key="item.id">
-                                            <div class="border d-inline-block m-1 ">
-                                                <span class="px-1">{{ item.name }}</span>
-                                                <i aria-hidden="true" class="fa fa-close border-left px-1 c-pointer"></i>
-                                            </div>
+                                            <span class="tag badge badge-light">{{ item.name }}<span data-role="remove"></span></span>
+                                          
                                         </template>
+
                                     </div>
                                 </div>
                             </div>
@@ -168,7 +167,7 @@ export default {
                 }
             } else {
                 this.setSummerEditor()
-                
+
                 let response = await this.store_data($event.target);
                 if (response.data.status === "success") {
                     window.s_alert(response.data.message);

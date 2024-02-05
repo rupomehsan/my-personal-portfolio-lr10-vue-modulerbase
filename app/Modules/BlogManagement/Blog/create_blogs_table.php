@@ -14,7 +14,6 @@ return new class extends Migration
     {
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
-            $table->json('blog_category_id')->nullable();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->text('tags')->nullable();
@@ -33,6 +32,13 @@ return new class extends Migration
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });
+
+        Schema::create('blog_categories', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('blog_id')->nullable();
+            $table->bigInteger('blog_category_id')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -41,5 +47,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('blogs');
+        Schema::dropIfExists('blog_categories');
     }
 };

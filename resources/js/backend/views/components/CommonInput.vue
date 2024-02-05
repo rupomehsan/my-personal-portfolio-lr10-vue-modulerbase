@@ -5,13 +5,19 @@
         </label>
         <div v-if="['text', 'number', 'password', 'email', 'date', 'month'].includes(type)" class="mt-1 mb-3">
             <template v-if="name == 'tags'">
-                <input type="text" class="form-control" :value="value" :name="name" data-role="tagsinput">
+                <!-- <input type="text" class="form-control" :value="tags" :name="name" data-role="tagsinput"> -->
+                <div class="bootstrap-tagsinput">
+                    <template v-for="item in set_blog_tags" :key="item">
+                        <span class="tag badge badge-light">{{ item }}<span data-role="remove"
+                                @click=removeTag(item)></span></span>
+                    </template>
+                    <input type="text" placeholder="" v-on:keydown.enter="onEnter" v-model="tag_input_value">
+                </div>
             </template>
             <template v-else>
                 <input class="form-control form-control-square mb-2" :type="type" :name="name" :id="name" :value="value"
                     @change="errorReset" />
             </template>
-
         </div>
 
         <div v-if="type === 'textarea'" class="mt-1 mb-3">
@@ -39,13 +45,15 @@
 
 <script>
 import TextEditor from './TextEditor.vue';
+import { mapActions, mapState } from 'pinia'
+import { blog_setup_store } from '../pages/admin/management/BlogManagement/Blog/setup/store';
 /**
  * props:
  */
 export default {
     components: { TextEditor },
     data: () => ({
-        tags: ''
+        tag_input_value: ''
     }),
     props: {
         name: {
@@ -72,10 +80,14 @@ export default {
             required: false,
             type: Array,
         },
-        
+
     },
 
     methods: {
+        ...mapActions(blog_setup_store, {
+            set_tags: 'set_tags',
+            remove_tag: 'remove_tag',
+        }),
         errorReset(event) {
             let currentElement = event.target
             let nextElement = currentElement.nextElementSibling;
@@ -84,6 +96,14 @@ export default {
                 nextElement.remove()
             }
         },
+        onEnter: function () {
+            this.set_tags(this.tag_input_value)
+            this.tag_input_value = ''
+        },
+        removeTag: function (item) {
+            
+            this.remove_tag(item)
+        }
     },
     created: async function () {
         // this.tags = this.value
@@ -91,7 +111,12 @@ export default {
         // setTimeout(() => {
         //     console.log(this.tags);
         // }, 1000)
-    }
+    },
+    computed: {
+        ...mapState(blog_setup_store, {
+            set_blog_tags: 'set_blog_tags',
+        }),
+    },
 
 
 

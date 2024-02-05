@@ -13,6 +13,7 @@ class Store
     public static function execute(Validation $request)
     {
         try {
+
             $imageName = 'dummy.png';
             if ($request->hasFile('thumbnail_image')) {
                 $image = $request->file('thumbnail_image');
