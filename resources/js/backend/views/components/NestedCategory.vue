@@ -3,7 +3,7 @@
         <div class="details">
             <input :type="type" :name="type == 'radio' ? 'parent_id' : 'blog_category_id[]'"
                 :class="type == 'radio' ? 'form-check-input' : ''" :value="item.id"
-                @click="type == 'checkbox' ? setCategory(item) : ''">
+                @click="type == 'checkbox' ? setCategory(item) : ''" :checked="child_parent_id.includes(item.id)">
             <div class="title">
                 {{ item.title }}
             </div>
@@ -13,7 +13,8 @@
         </div>
         <ul class="list " v-if="item.child_cateogories?.length">
             <div class="left_line"></div> <!---->
-            <nested-category :children="item.child_cateogories" :type="type"></nested-category>
+            <nested-category :children="item.child_cateogories" :child_parent_id="child_parent_id"
+                :type="type"></nested-category>
         </ul>
     </li>
 </template>

@@ -12,9 +12,7 @@ class Model extends EloquentModel
 
     protected $table = "blogs";
     protected $guarded = [];
-    protected $casts = [
-        'blog_category_id' => 'array'
-    ];
+
 
     protected static function booted()
     {
@@ -30,9 +28,8 @@ class Model extends EloquentModel
     {
         return $q->where('status', 'active');
     }
-
     public function categories()
     {
-        return $this->belongsToMany(self::$model, 'blog_category_id');
+        return $this->belongsToMany(self::$model, 'blog_post_categories', 'blog_id', 'blog_category_id');
     }
 }

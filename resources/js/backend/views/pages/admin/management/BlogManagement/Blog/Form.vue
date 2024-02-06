@@ -14,11 +14,13 @@
                         <div class="col-md-6">
                             <div class="form-group"><label for="">Select category</label>
                                 <div class="mt-1 mb-3">
-                                    <div class="form-control form-control-square mb-2 h-25 bootstrap-tagsinput" style="min-height: 40px;"
-                                        type="text" id="blog_category_id" @click="modal_show = !modal_show">
+                                    <div class="form-control form-control-square mb-2 h-25 bootstrap-tagsinput"
+                                        style="min-height: 40px;" type="text" id="blog_category_id"
+                                        @click="modal_show = !modal_show">
                                         <template v-for="item in set_categories_data" :key="item.id">
-                                            <span class="tag badge badge-light">{{ item.name }}<span data-role="remove"></span></span>
-                                          
+                                            <span class="tag badge badge-light">{{ item.name }}<span
+                                                    data-role="remove"></span></span>
+
                                         </template>
 
                                     </div>
@@ -87,7 +89,7 @@ export default {
         param_id: null,
         modal_show: false,
         children: [],
-        child_parent_id: null
+        child_parent_id: []
     }),
     created: async function () {
 
@@ -135,9 +137,37 @@ export default {
                             $('#description').summernote('code', value[1]);
                         }
 
+                        if (value[0] == 'categories') {
+                            this.child_parent_id = []
+                            value[1].forEach((item) => {
+                                this.child_parent_id.push(item.id)
+                            })
+                        }
 
                     });
                 });
+
+                Object.entries(this.single_data).forEach((value) => {
+                    if (value[0] == 'categories') {
+                        value[1].forEach((item) => {
+                            this.set_categories(item)
+                        })
+                    }
+                });
+
+                Object.entries(this.single_data).forEach((value) => {
+                    if (value[0] == 'tags') {
+                        let tagData = value[1].split(',')
+                        tagData.pop()
+
+                        tagData.forEach((item)=>{
+                            this.set_tags(item)
+                        })
+
+
+                    }
+                });
+
             }
         } else {
             this.form_fields.forEach((item) => {
@@ -154,6 +184,8 @@ export default {
             store_data: 'store',
             update_data: 'update',
 
+            set_categories: 'set_categories',
+            set_tags: 'set_tags',
             get_all_blog_categories: 'get_all_blog_categories',
         }),
 

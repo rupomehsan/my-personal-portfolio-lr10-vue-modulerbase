@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Modules\BlogManagement\Category;
 
 use Illuminate\Database\Seeder as SeedersSeeder;
@@ -12,8 +13,35 @@ class Seeder extends SeedersSeeder
     public function run(): void
     {
         self::$model::truncate();
+
         self::$model::create([
-            "title" => " ",
+            "title" => "Islamic",
+        ]);
+
+        self::$model::create([
+            "title" => "Quran",
+            "parent_id" => 1,
+        ]);
+
+        self::$model::create([
+            "title" => "Hadish",
+            "parent_id" => 1,
+        ]);
+
+        self::$model::create([
+            "title" => "Programing",
+        ]);
+        self::$model::create([
+            "title" => "PHP",
+            "parent_id" => 4,
+        ]);
+        self::$model::create([
+            "title" => "Laravel",
+            "parent_id" => 5,
+        ]);
+        self::$model::create([
+            "title" => "Javascript",
+            "parent_id" => 4,
         ]);
     }
 }

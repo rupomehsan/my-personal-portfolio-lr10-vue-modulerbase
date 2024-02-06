@@ -33,7 +33,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('blog_categories', function (Blueprint $table) {
+        Schema::create('blog_post_categories', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('blog_id')->nullable();
             $table->bigInteger('blog_category_id')->nullable();

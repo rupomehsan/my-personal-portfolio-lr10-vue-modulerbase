@@ -80,7 +80,7 @@ export default [
         name: "privecy_status",
         label: "Privecy status",
         type: "select",
-        value: null,
+        value: 'public',
         multiple: false,
         data_list: [
             {

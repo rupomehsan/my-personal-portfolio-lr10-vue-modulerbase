@@ -33,7 +33,6 @@ class Validation extends FormRequest
     public function rules(): array
     {
         return [
-            'blog_category_id' => 'sometimes|required',
             'title' => 'sometimes|required',
             'description' => 'sometimes|required',
             'tags' => 'sometimes',

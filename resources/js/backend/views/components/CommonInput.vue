@@ -6,7 +6,7 @@
         <div v-if="['text', 'number', 'password', 'email', 'date', 'month'].includes(type)" class="mt-1 mb-3">
             <template v-if="name == 'tags'">
                 <!-- <input type="text" class="form-control" :value="tags" :name="name" data-role="tagsinput"> -->
-                <div class="bootstrap-tagsinput">
+                <div class="bootstrap-tagsinput" style="min-height: 40px;">
                     <template v-for="item in set_blog_tags" :key="item">
                         <span class="tag badge badge-light">{{ item }}<span data-role="remove"
                                 @click=removeTag(item)></span></span>
@@ -101,7 +101,7 @@ export default {
             this.tag_input_value = ''
         },
         removeTag: function (item) {
-            
+
             this.remove_tag(item)
         }
     },
