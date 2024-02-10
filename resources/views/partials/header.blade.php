@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="{{asset('assets/css/owl.carousel.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/owl.carousel.min.css')}}">
     <link href="{{asset('frontend/css/style.css')}}" rel="stylesheet">
- 
+
+    @stack('custom-css');
 </head>
 
 <body>

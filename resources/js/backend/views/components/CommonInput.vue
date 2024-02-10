@@ -97,6 +97,7 @@ export default {
             }
         },
         onEnter: function () {
+            event.preventDefault()
             this.set_tags(this.tag_input_value)
             this.tag_input_value = ''
         },

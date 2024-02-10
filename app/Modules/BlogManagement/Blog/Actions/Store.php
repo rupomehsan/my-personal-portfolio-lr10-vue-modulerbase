@@ -14,7 +14,6 @@ class Store
     public static function execute(Validation $request)
     {
         try {
-
             $blog_category_id = json_decode($request->blog_category_id);
             $reqtags = json_decode($request->tags);
             $tags = null;
@@ -33,7 +32,6 @@ class Store
             }
 
 
-
             if ($blog = self::$model::query()->create(array_merge(
                 $request->validated(),
                 [
@@ -43,12 +41,7 @@ class Store
                 ]
             ))) {
                 if ($blog_category_id && count($blog_category_id)) {
-                    foreach ($blog_category_id as  $item) {
-                        DB::table('blog_post_categories')->insert([
-                            'blog_id' => $blog->id,
-                            'blog_category_id' => $item
-                        ]);
-                    }
+                    $blog->categories()->attach($blog_category_id);
                 }
                 return messageResponse('Item added successfully', 201);
             }

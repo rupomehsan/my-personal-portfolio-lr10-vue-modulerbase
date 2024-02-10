@@ -20,12 +20,11 @@ Route::get('/', function () {
 Route::get('/all-doners', function () {
     return view('frontend.doner.index');
 });
-Route::get('/all-blogs', function () {
-    return view('frontend.blog.index');
+Route::controller(\App\Http\Controllers\BlogController::class)->group(function () {
+    Route::get('all-blogs', 'getAllBlogs')->name('blog.all');
+    Route::get('blog-details/{slug}', 'getSingleBlog')->name('blog.single');
 });
-Route::get('/blog-details', function () {
-    return view('frontend.blog.single-blog');
-});
+
 Route::get('/all-projects', function () {
     return view('frontend.project.index');
 });
@@ -38,6 +37,8 @@ Route::get('/admin/login', function () {
 
 Route::get('/admin', [App\Http\Controllers\HomeController::class, 'index'])->name('admin.dashboard');
 Auth::routes();
+
+
 Route::get('test', function () {
     $store = Str::singular((Str::snake('NewsParer')));
     return $store;

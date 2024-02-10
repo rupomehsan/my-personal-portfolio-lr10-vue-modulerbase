@@ -1,6 +1,5 @@
 @extends('layouts.frontend')
 @section('content')
-
 <div>
     <style>
         body {
@@ -148,112 +147,64 @@
         <x-section-title title="all blogs" />
     </div>
     <div class="row my80">
+        @foreach ($allBlogs as $blog)
         <div class="col-md-4">
-
             <div class="column">
                 <!-- Post-->
                 <div class="post-module">
                     <!-- Thumbnail-->
                     <div class="thumbnail">
                         <div class="date">
-                            <div class="day">27</div>
-                            <div class="month">Mar</div>
+                            <div class="day">{{$blog->created_at->format('d')}}</div>
+                            <div class="month">{{$blog->created_at->format('M')}}</div>
                         </div>
+                        @if ($blog->blog_type == 'Image')
+                        <img src="{{asset($blog->thumbnail_image)}}" class="w-100 " alt="" style="min-height:300px;">
+                        @else
+                        @php
+                        $originalUrl = $blog->url;
+                        $parsedUrl = parse_url($originalUrl);
+                        parse_str($parsedUrl['query'], $queryParams);
+                        $videoId = $queryParams['v'];
+                        $embeddedUrl = "https://www.youtube.com/embed/{$videoId}";
+                        @endphp
                         <div style="height:300px;">
-                            <iframe class="w-100 h-100" src="https://www.youtube.com/embed/c_-b_isI4vg"
+                            <iframe class="w-100 h-100" src="{{$embeddedUrl}}"
                                 title="Full Stack Airbnb Clone with Next.js 13 App Router: React, Tailwind, Prisma, MongoDB, NextAuth 2023"
                                 frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                 allowfullscreen></iframe>
                         </div>
+                        @endif
+
                     </div>
                     <!-- Post Content-->
                     <div class="post-content">
-                        <div class="category"> <a href="{{url('blog-details')}}">Details</a></div>
-                        <h1 class="title">City Lights in New York</h1>
-                        <h2 class="sub_title">The city that never sleeps.</h2>
-                        <p class="description">New York, the largest city in the U.S., is an architectural
-                            marvel with
-                            plenty of historic monuments, magnificent buildings and countless dazzling
-                            skyscrapers.</p>
-                        <div class="post-meta"><span class="timestamp"><i class="fa fa-clock-">o</i> 6 mins
-                                ago</span><span class="comments"><i class="fa fa-comments"></i><a href="#"> 39
-                                    comments</a></span></div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="col-md-4">
-
-            <div class="column">
-                <!-- Post-->
-                <div class="post-module">
-                    <!-- Thumbnail-->
-                    <div class="thumbnail">
-                        <div class="date">
-                            <div class="day">27</div>
-                            <div class="month">Mar</div>
-                        </div>
-                        <div style="height:300px;">
-                            <!-- <img src="{{asset('')}}" alt=""> -->
-                            <div class="h-100 p-0">
-                                <iframe class="w-100 h-100" src="https://www.youtube.com/embed/dTFXufTgfOE"
-                                    title="Build a Fullstack E-commerce using Next.js (react.js, mongo, tailwind, styled components)"
-                                    frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    allowfullscreen></iframe>
-                            </div>
+                        <div class="category"> <a href="{{route('blog.single',$blog->slug)}}">Details</a></div>
+                        <h1 class="title">{{$blog->title}}</h1>
+                        <h2 class="sub_title">{!! $blog->description !!}</h2>
+                        <div class="post-meta">
+                            <span class="timestamp">
+                                <i class="fa fa-clock-"></i>
+                                {{Carbon\Carbon::parse($blog->created_at)->diffForHumans()}}
+                            </span>
+                            <span class="comments">
+                                <i class="fa fa-comments"></i>
+                                <a href="#"> 39 comments</a>
+                            </span>
                         </div>
                     </div>
-                    <!-- Post Content-->
-                    <div class="post-content">
-                        <div class="category"> <a href="{{url('blog-details')}}">Details</a></div>
-                        <h1 class="title">City Lights in New York</h1>
-                        <h2 class="sub_title">The city that never sleeps.</h2>
-                        <p class="description ">New York, the largest city in the U.S., is an architectural
-                            marvel with
-                            plenty of historic monuments, magnificent buildings and countless dazzling
-                            skyscrapers.</p>
-                        <div class="post-meta"><span class="timestamp"><i class="fa fa-clock-">o</i> 6 mins
-                                ago</span><span class="comments"><i class="fa fa-comments"></i><a href="#"> 39
-                                    comments</a></span></div>
-                    </div>
                 </div>
             </div>
 
         </div>
-        <div class="col-md-4">
-
-            <div class="column">
-                <!-- Post-->
-                <div class="post-module">
-                    <!-- Thumbnail-->
-                    <div class="thumbnail">
-                        <div class="date">
-                            <div class="day">27</div>
-                            <div class="month">Mar</div>
-                        </div><img
-                            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/photo-1429043794791-eb8f26f44081.jpeg" />
-                    </div>
-                    <!-- Post Content-->
-                    <div class="post-content">
-                        <div class="category"> <a href="{{url('blog-details')}}">Details</a></div>
-                        <h1 class="title">City Lights in New York</h1>
-                        <h2 class="sub_title">The city that never sleeps.</h2>
-                        <p class="description ">New York, the largest city in the U.S., is an architectural
-                            marvel with
-                            plenty of historic monuments, magnificent buildings and countless dazzling
-                            skyscrapers.</p>
-                        <div class="post-meta"><span class="timestamp"><i class="fa fa-clock-">o</i> 6 mins
-                                ago</span><span class="comments"><i class="fa fa-comments"></i><a href="#"> 39
-                                    comments</a></span></div>
-                    </div>
-                </div>
+        @endforeach
+        <div class="d-flex justify-content-center">
+            <div class="pagination">
+                {{ $allBlogs->links() }}
             </div>
-
         </div>
+
     </div>
 
 </div>

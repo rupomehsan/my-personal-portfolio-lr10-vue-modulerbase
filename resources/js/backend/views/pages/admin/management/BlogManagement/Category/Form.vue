@@ -55,7 +55,7 @@ export default {
         form_fields,
         param_id: null,
         children: [],
-        child_parent_id: null
+        child_parent_id: [null]
     }),
     created: async function () {
         let id = this.$route.query.id;
@@ -77,6 +77,9 @@ export default {
                     Object.entries(this.single_data).forEach((value) => {
                         if (field.name == value[0]) {
                             this.form_fields[index].value = value[1];
+                        }
+                        if (value[0] == 'parent_id') {
+                            this.child_parent_id.push(value[1]);
                         }
                     });
                 });

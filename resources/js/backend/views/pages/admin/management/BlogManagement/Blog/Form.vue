@@ -160,7 +160,7 @@ export default {
                         let tagData = value[1].split(',')
                         tagData.pop()
 
-                        tagData.forEach((item)=>{
+                        tagData.forEach((item) => {
                             this.set_tags(item)
                         })
 
@@ -169,10 +169,6 @@ export default {
                 });
 
             }
-        } else {
-            this.form_fields.forEach((item) => {
-                item.value = "";
-            });
         }
 
     },
