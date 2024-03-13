@@ -1,18 +1,22 @@
 <?php
 
-namespace App\Modules\BlogManagement\Blog;
+namespace App\Modules\Category\Models;
 
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Support\Str;
-
 
 class Model extends EloquentModel
 {
     static $model = \App\Modules\Category\Models\Model::class;
 
-    protected $table = "blogs";
+
+    protected $table = "categories";
     protected $guarded = [];
 
+
+    protected $casts = [
+        'category_type' => 'array'
+    ];
 
     protected static function booted()
     {
@@ -28,8 +32,17 @@ class Model extends EloquentModel
     {
         return $q->where('status', 'active');
     }
-    public function categories()
+    public function child_cateogories()
     {
-        return $this->belongsToMany(self::$model, 'blog_post_categories', 'blog_id', 'blog_category_id');
+        return $this->hasMany(self::$model, 'parent_id')->with('child_cateogories');
+    }
+    public function getCategoryTypeAttribute($value)
+    {
+        if (is_array($value)) {
+            return $value;
+        }
+
+        // If not an array, decode the JSON string
+        return json_decode($value, true);
     }
 }

@@ -1,18 +1,16 @@
 <?php
 
-namespace App\Modules\BlogManagement\Blog;
+namespace App\Modules\TodoList\Models;
 
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Support\Str;
-
 
 class Model extends EloquentModel
 {
     static $model = \App\Modules\Category\Models\Model::class;
 
-    protected $table = "blogs";
+    protected $table = "todo_lists";
     protected $guarded = [];
-
 
     protected static function booted()
     {
@@ -28,8 +26,8 @@ class Model extends EloquentModel
     {
         return $q->where('status', 'active');
     }
-    public function categories()
+    public function category()
     {
-        return $this->belongsToMany(self::$model, 'blog_post_categories', 'blog_id', 'blog_category_id');
+        return $this->belongsTo(self::$model, 'category_id');
     }
 }

@@ -16,17 +16,17 @@
                     <div class="menu-title">Dashboard</div>
                 </router-link>
             </li>
-            <!-- <li class="menu-label">Blog Management</li> -->
+            <side-bar-single-menu :icon="`fa fa-plus`" :menu_title="`Category`" :route_name="'AllCategory'" />
+
+            <li class="menu-label mt-0">Blog Management System</li>
             <side-bar-drop-down-menus :icon="`fa fa-plus`" :menu_title="`Blog Management`" :menus="[
-                {
-                    route_name: `AllCategory`,
-                    title: `Blog Category`,
-                },
                 {
                     route_name: `AllBlog`,
                     title: `Blogs`,
                 },
             ]" />
+
+            <side-bar-single-menu :icon="`fa fa-plus`" :menu_title="`TodoList`" :route_name="'AllTodoList'" />
 
 
         </ul>

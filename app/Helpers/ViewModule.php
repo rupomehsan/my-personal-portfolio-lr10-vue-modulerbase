@@ -65,14 +65,14 @@ if (!function_exists('viewAll')) {
                                                                 :to="{ name: `Create\${route_prefix}` }">
                                                                 <i class="fa fa-eye"></i>
                                                             </router-link> -->
-                                                            <router-link class="btn btn-sm btn-outline-warning mx-2" :to="{
+                                                            <router-link title="Edit" class="btn btn-sm btn-outline-warning mx-2" :to="{
                                                                 name: `Create\${route_prefix}`, query: {
                                                                     id: item.id,
                                                                 },
                                                             }">
                                                                 <i class="fa fa-pencil"></i>
                                                             </router-link>
-                                                            <a @click.prevent="delete_data(item.id)" class="btn btn-sm btn-outline-danger ">
+                                                            <a title="Delete" @click.prevent="delete_data(item.id)" class="btn btn-sm btn-outline-danger ">
                                                                 <i class="fa fa-trash"></i>
                                                             </a>
                                                         </div>
@@ -209,12 +209,11 @@ if (!function_exists('viewForm')) {
                         param_id: null,
                     }),
                     created: async function () {
-                        let id = this.\$route.query.id;
+                        this.param_id = this.\$route.query.id;
                         this.route_prefix = setup.route_prefix;
-                        await this.get_all_data()
-                        if (id) {
-                            this.param_id = id;
-                            await this.get_single_data(id);
+                        if (this.param_id) {
+                            await this.get_single_data(this.param_id);
+
                             if (this.single_data) {
                                 this.form_fields.forEach((field, index) => {
                                     Object.entries(this.single_data).forEach((value) => {
@@ -234,7 +233,6 @@ if (!function_exists('viewForm')) {
                     },
                     methods: {
                         ...mapActions({$moduleName}_setup_store, {
-                            get_all_data: 'all',
                             get_single_data: 'get',
                             store_data: 'store',
                             update_data: 'update',
@@ -262,7 +260,6 @@ if (!function_exists('viewForm')) {
                     computed: {
                         ...mapState({$moduleName}_setup_store, {
                             single_data: "single_data",
-                            all_data: 'all_data',
                         }),
                     },
 
@@ -277,63 +274,66 @@ if (!function_exists('viewForm')) {
 
 
 if (!function_exists('ViewFormField')) {
-    function ViewFormField($moduleName)
+    function ViewFormField($moduleName, $fields)
     {
 
-        $content = <<<"EOD"
+        $content = <<<EOD
         export default [
-            {
-                name: "name",
-                label: "Enter your  name",
-                type: "text",
-                value: "",
-            },
-            {
-                name: "email",
-                label: "Enter your email",
-                type: "email",
-                value: "",
-            },
-            {
-                name: "password",
-                label: "Enter your password",
-                type: "password",
-                value: "",
-            },
-            {
-                name: "phone",
-                label: "Enter your phone number",
-                type: "number",
-                value: "",
-            },
-
-            {
-                name: "image",
-                label: "Upload your image",
-                type: "file",
-                value: null,
-                multiple: false,
-            },
-            {
-                name: "status",
-                label: "Select default status",
-                type: "select",
-                value: "",
-                multiple: false,
-                data_list: [
-                    {
-                        label: "Active",
-                        value: "active",
-                    },
-                    {
-                        label: "Inactive",
-                        value: "inactive",
-                    },
-                ],
-            },
-        ];
-
         EOD;
+
+        if (count($fields)) {
+            foreach ($fields as $fieldName) {
+                // dd($fieldName);
+                $content .= "\n\t{\n";
+                $content .= "\t\tname: \"$fieldName[0]\",\n";
+                $content .= "\t\tlabel: \"Enter your $fieldName[0]\",\n";
+
+                if (count($fieldName) > 1) {
+                    $type = $fieldName[1];
+                    switch ($type) {
+                        case 'longtext':
+                            $content .= "\t\ttype: \"textarea\",\n";
+                            break;
+                        case 'number':
+                            $content .= "\t\ttype: \"number\",\n";
+                            break;
+                        case 'file':
+                            $content .= "\t\ttype: \"file\",\n";
+                            $content .= "\t\tmultiple: \"false\",\n";
+                            break;
+                        case 'select':
+                        case 'boolean':
+                            $content .= "\t\ttype: \"select\",\n";
+                            $content .= "\t\tlabel: \"Select default $fieldName[0]\",\n";
+                            $content .= "\t\tvalue: \"\",\n";
+                            $content .= "\t\tmultiple: false,\n";
+                            $content .= "\t\tdata_list: [\n";
+                            $content .= "\t\t\t{\n";
+                            $content .= "\t\t\t\tlabel: \"Active\",\n";
+                            $content .= "\t\t\t\tvalue: \"active\",\n";
+                            $content .= "\t\t\t},\n";
+                            $content .= "\t\t\t{\n";
+                            $content .= "\t\t\t\tlabel: \"Inactive\",\n";
+                            $content .= "\t\t\t\tvalue: \"inactive\",\n";
+                            $content .= "\t\t\t},\n";
+                            $content .= "\t\t],\n";
+                            break;
+                        case 'password':
+                            $content .= "\t\ttype: \"password\",\n";
+                            break;
+                        default:
+                            $content .= "\t\ttype: \"text\",\n";
+                    }
+                } else {
+                    $content .= "\t\ttype: \"text\",\n";
+                }
+                $content .= "\t\tvalue: \"\",\n";
+                $content .= "\t},\n";
+            }
+        }
+
+        $content .= "];\n";
+
 
         return $content;
     }
@@ -438,7 +438,7 @@ if (!function_exists('ViewStore')) {
                 all_data: {},
                 single_data: {},
                 role_data: {},
-                api:"{$apiName}/"
+                api:"{$apiName}"
             }),
             getters: {
                 doubleCount: (state) => state.count * 2,
@@ -456,7 +456,7 @@ if (!function_exists('ViewStore')) {
                 },
 
                 get: async function (id) {
-                    let response = await axios.get(this.api+id);
+                    let response = await axios.get(`\${this.api}/\${id}`);
                     response = response.data.data;
                     this.single_data = response;
                 },
@@ -469,21 +469,21 @@ if (!function_exists('ViewStore')) {
 
                 update: async function (form, id) {
                     let formData = new FormData(form);
-                    let response = await axios.post(`\${this.api}\${id}?_method=PATCH`, formData);
+                    let response = await axios.post(`\${this.api}/\${id}?_method=PATCH`, formData);
                     return response;
                 },
 
                 delete: async function (id) {
                     var data = await window.s_confirm();
                     if (data) {
-                        let response = await axios.delete(this.api+id);
+                        let response = await axios.delete(`\${this.api}/\${id}`);
                         window.s_alert("Data deleted");
                         this.all();
                         console.log(response.data);
                     }
                 },
                 bulk_action: async function (action, data) {
-                    let response = await axios.post(`\${this.api}bulk-action`, { action, data })
+                    let response = await axios.post(`\${this.api}/bulk-action`, { action, data })
                     if (response.data.status === "success") {
                         window.s_alert(response.data.message);
                         this.all();

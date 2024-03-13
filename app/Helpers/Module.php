@@ -24,7 +24,7 @@ if (!function_exists('all')) {
 
         class All
         {
-            static \$model = \App\Modules\\{$moduleName}\\Model::class;
+            static \$model = \App\Modules\\{$moduleName}\\Models\\Model::class;
 
             public static function execute()
             {
@@ -81,7 +81,7 @@ if (!function_exists('bulkActions')) {
 
         class BulkActions
         {
-            static \$model = \App\Modules\\{$moduleName}\\Model::class;
+            static \$model = \App\Modules\\{$moduleName}\\Models\\Model::class;
 
             public static function execute()
             {
@@ -147,17 +147,18 @@ if (!function_exists('store')) {
 
             namespace App\\Modules\\{$moduleName}\\Actions;
 
-            use App\\Modules\\{$moduleName}\\Actions\\Validation;
-            use Illuminate\Support\Facades\Hash;
+            use App\\Modules\\{$moduleName}\\Validations\\Validation;
+
 
             class Store
             {
-                static \$model = \App\\Modules\\{$moduleName}\\Model::class;
+                static \$model = \App\\Modules\\{$moduleName}\\Models\\Model::class;
 
                 public static function execute(Validation \$request)
                 {
                     try {
-                        if (self::\$model::query()->create(\$request->validated())) {
+                        \$requestData = \$request->validated();
+                        if (self::\$model::query()->create(\$requestData)) {
                             return messageResponse('Item added successfully', 201);
                         }
                     } catch (\Exception \$e) {
@@ -189,11 +190,11 @@ if (!function_exists('update')) {
 
             namespace App\\Modules\\{$moduleName}\\Actions;
 
-            use App\\Modules\\{$moduleName}\\Actions\\Validation;
+            use App\\Modules\\{$moduleName}\\Validations\\Validation;
 
             class Update
             {
-                static \$model = \App\\Modules\\{$moduleName}\\Model::class;
+                static \$model = \App\\Modules\\{$moduleName}\\Models\\Model::class;
 
                 public static function execute(Validation \$request,\$id)
                 {
@@ -201,7 +202,8 @@ if (!function_exists('update')) {
                         if (!\$data = self::\$model::query()->where('id', \$id)->first()) {
                             return messageResponse('Data not found...', 404, 'error');
                         }
-                        \$data->update(\$request->validated());
+                        \$requestData = \$request->validated();
+                        \$data->update(\$requestData);
                         return messageResponse('Item updated successfully');
                     } catch (\Exception \$e) {
                         return messageResponse(\$e->getMessage(), 500, 'server_error');
@@ -236,7 +238,7 @@ if (!function_exists('show')) {
 
             class Show
             {
-                static \$model = \App\\Modules\\{$moduleName}\\Model::class;
+                static \$model = \App\\Modules\\{$moduleName}\\Models\\Model::class;
 
                 public static function execute(\$id)
                 {
@@ -277,7 +279,7 @@ if (!function_exists('delete')) {
 
             class Delete
             {
-                static \$model = \App\\Modules\\{$moduleName}\\Model::class;
+                static \$model = \App\\Modules\\{$moduleName}\\Models\\Model::class;
 
                 public static function execute(\$id)
                 {
@@ -298,8 +300,10 @@ if (!function_exists('delete')) {
 }
 
 if (!function_exists('validation')) {
-    function validation($moduleName)
+    function validation($moduleName, $fields)
     {
+
+
         $formated_module = explode('/', $moduleName);
 
         if (count($formated_module) > 1) {
@@ -310,10 +314,20 @@ if (!function_exists('validation')) {
             $moduleName = Str::replace("/", "\\", $moduleName);
         }
 
+        $formatField = [];
+        if (count($fields)) {
+            foreach ($fields as $field) {
+                $formatField[] = [
+                    $field[0] => 'required'
+                ];
+            }
+        }
+        // dd($formatField);
+
         $content = <<<"EOD"
             <?php
 
-            namespace App\\Modules\\{$moduleName}\\Actions;
+            namespace App\\Modules\\{$moduleName}\\Validations;
 
             use Illuminate\Contracts\Validation\Validator;
             use Illuminate\Foundation\Http\FormRequest;
@@ -338,19 +352,6 @@ if (!function_exists('validation')) {
                     return response(['status' => 'validation_error', 'errors' => \$errorPayload], 422);
                 }
 
-                /**
-                 * Get the validation rules that apply to the request.
-                 *
-                 * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
-                 */
-                public function rules(): array
-                {
-                    return [
-                        'title' => 'required',
-                        'status' => ['sometimes', Rule::in(['active', 'inactive'])],
-                    ];
-                }
-
                 protected function failedValidation(Validator \$validator)
                 {
                     throw new HttpResponseException(\$this->validateError(\$validator->errors()));
@@ -359,9 +360,35 @@ if (!function_exists('validation')) {
                     }
                     parent::failedValidation(\$validator);
                 }
+
+                /**
+                 * Get the validation rules that apply to the request.
+                 *
+                 * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+                 */
+                public function rules(): array
+                {
+                    return [
+
+            EOD;
+
+        // Now, let's dynamically add rules from $formatField
+        if (count($formatField)) {
+            foreach ($formatField as $fieldName => $rule) {
+                if (is_array($rule)) {
+                    foreach ($rule as $field => $validation) {
+                        $content .= "            '$field' => '$validation | sometimes',\n";
+                    }
+                }
+            }
+        }
+        $content .= <<<EOD
+                        'status' => ['sometimes', Rule::in(['active', 'inactive'])],
+                    ];
+                }
             }
             EOD;
-        // $content = str_replace('{moduleName}', $moduleName, $content);
+
         return $content;
     }
 }
@@ -471,7 +498,7 @@ if (!function_exists('model')) {
         $content = <<<"EOD"
             <?php
 
-            namespace App\\Modules\\{$moduleName};
+            namespace App\\Modules\\{$moduleName}\\Models;
 
             use Illuminate\Database\Eloquent\Model as EloquentModel;
             use Illuminate\Support\Str;
@@ -503,9 +530,11 @@ if (!function_exists('model')) {
 }
 
 if (!function_exists('migration')) {
-    function migration($moduleName)
+    function migration($moduleName, $fields)
     {
         $table_name = Str::plural((Str::snake($moduleName)));
+
+
 
         $content = <<<"EOD"
         <?php
@@ -517,13 +546,40 @@ if (!function_exists('migration')) {
         return new class extends Migration
         {
             /**
+             php artisan migrate --path='\App\\Modules\\{$moduleName}\\Database\\create_{$table_name}_table.php'
              * Run the migrations.
              */
             public function up(): void
             {
                 Schema::create('{$table_name}', function (Blueprint \$table) {
                     \$table->id();
-                    \$table->string('title')->nullable();
+
+        EOD;
+        if (count($fields)) {
+            foreach ($fields as $fieldName) {
+
+                if (count($fieldName) == 1) {
+                    $content .= "            \$table->string('{$fieldName[0]}')->nullable();\n";
+                }
+                if (count($fieldName) > 1) {
+                    $type = $fieldName[1];
+                    if ($type == 'text') {
+                        $type =  'string';
+                    } elseif ($type == 'longtext') {
+                        $type =  'text';
+                    } elseif ($type == 'number') {
+                        $type = 'bigInteger';
+                    } elseif ($type == 'boolean') {
+                        $type =  'tinyInteger';
+                    } else {
+                        $type =  'string';
+                    }
+
+                    $content .= "            \$table->{$type}('{$fieldName[0]}')->nullable();\n";
+                }
+            }
+        }
+        $content .= <<<EOD
 
                     \$table->bigInteger('creator')->unsigned()->nullable();
                     \$table->string('slug', 50)->nullable();
@@ -546,44 +602,71 @@ if (!function_exists('migration')) {
     }
 }
 
+
 if (!function_exists('seeder')) {
-    function seeder($moduleName)
+    function seeder($moduleName, $fields)
     {
+
+     
+
         $formated_module = explode('/', $moduleName);
-
         if (count($formated_module) > 1) {
-
             $moduleName = implode('/', $formated_module);
             $moduleName = Str::replace("/", "\\", $moduleName);
         } else {
             $moduleName = Str::replace("/", "\\", $moduleName);
         }
 
+        $formatField = [];
+        if (count($fields)) {
+            foreach ($fields as $field) {
+                $formatField[] = [
+                    $field[0] => $field[0]
+                ];
+            }
+        }
+
+
         $content = <<<"EOD"
         <?php
-        namespace App\\Modules\\{$moduleName};
+        namespace App\\Modules\\{$moduleName}\\Database;
 
-        use Illuminate\Database\Seeder as SeedersSeeder;
+        use Illuminate\Database\Seeder as SeederClass;
 
-        class Seeder extends SeedersSeeder
+        class Seeder extends SeederClass
         {
             /**
              * Run the database seeds.
+             php artisan db:seed --class="\App\\Modules\\{$moduleName}\\Database\\Seeder"
              */
-            static \$model = \App\\Modules\\{$moduleName}\\Model::class;
+            static \$model = \App\\Modules\\{$moduleName}\\Models\\Model::class;
             public function run(): void
             {
+
                 self::\$model::truncate();
+                for (\$i = 1; \$i < 100; \$i++) {
                 self::\$model::create([
-                    "title" => " ",
-                ]);
+
+        EOD;
+        if (count($formatField)) {
+            foreach ($formatField as $fieldName => $rule) {
+                if (is_array($rule)) {
+                    foreach ($rule as $field => $value) {
+                        $content .= "            '$field' => facker()->name,\n";
+                    }
+                }
+            }
+        }
+        $content .= <<<EOD
+                    ]);
+                }
             }
         }
         EOD;
-
         return $content;
     }
 }
+
 
 if (!function_exists('controller')) {
     function controller($moduleName)
@@ -608,7 +691,7 @@ if (!function_exists('controller')) {
         use App\\Modules\\{$moduleName}\\Actions\Show;
         use App\\Modules\\{$moduleName}\\Actions\Store;
         use App\\Modules\\{$moduleName}\\Actions\Update;
-        use App\\Modules\\{$moduleName}\\Actions\Validation;
+        use App\\Modules\\{$moduleName}\\Validations\\Validation;
         use App\\Modules\\{$moduleName}\\Actions\BulkActions;
         use App\Http\Controllers\Controller as ControllersController;
 

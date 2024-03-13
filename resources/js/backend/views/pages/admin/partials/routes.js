@@ -3,8 +3,9 @@ import Dashboard from "../Dashboard.vue"
 
 import user_routes from "../management/user/setup/routes";
 
-import blog_category_routes from "../management/BlogManagement/Category/setup/routes";
+import category_routes from "../management/Category/setup/routes";
 import blog_routes from "../management/BlogManagement/Blog/setup/routes";
+import totdo_list_routes from "../management/TodoList/setup/routes";
 
 
 
@@ -19,10 +20,9 @@ const routes = {
         },
 
         user_routes,
-
-
-        blog_category_routes,
+        category_routes,
         blog_routes,
+        totdo_list_routes,
 
     ]
 };

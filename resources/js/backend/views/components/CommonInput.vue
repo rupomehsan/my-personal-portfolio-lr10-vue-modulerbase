@@ -19,6 +19,10 @@
                     @change="errorReset" />
             </template>
         </div>
+        <div v-if="type === 'checkbox'">
+
+            <input class=" mb-2" :type="type" :name="name" :id="name" @change="errorReset" :checked="checked" />
+        </div>
 
         <div v-if="type === 'textarea'" class="mt-1 mb-3">
             <!-- <textarea class="form-control form-control-square" rows="10"  type="text" :name="name" :value="value"
@@ -80,6 +84,15 @@ export default {
             required: false,
             type: Array,
         },
+        checked: {
+            required: false,
+            type: Boolean,
+        },
+        onchange: {
+            required: false,
+            type: Function,
+            default: () => "",
+        },
 
     },
 
@@ -94,6 +107,10 @@ export default {
             if (nextElement) {
                 currentElement.classList.remove('border-warning')
                 nextElement.remove()
+            }
+
+            if (this.onchange) {
+                this.onchange(event);
             }
         },
         onEnter: function () {
