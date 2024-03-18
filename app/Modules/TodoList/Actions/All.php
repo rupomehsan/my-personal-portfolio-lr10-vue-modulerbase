@@ -19,19 +19,20 @@ class All
             if (request()->has('status') && request()->input('status')) {
                 $condition['status'] = request()->input('status');
             }
-
             if (request()->has('search') && request()->input('search')) {
                 $data = $data->where('title', 'like', '%' . request()->input('search') . '%');
             }
 
             if (request()->has('get_all') && (int)request()->input('get_all') === 1) {
                 $data = $data->with($with)->where($condition)->latest()->get();
+            } else if (request()->has('category_id') && request()->input('category_id')) {
+                $data = $data->with($with)->where('category_id', request()->input('category_id'))->latest()->paginate($offset);
             } else {
-                $results = self::$model::with($with)->select('category_id', DB::raw('COUNT(*) as count'))->groupBy('category_id')->get();
+                $data = self::$model::with($with)->select('category_id', DB::raw('COUNT(*) as count'))->groupBy('category_id')->get();
                 // $data = $data->with($with)
                 // ->groupBy('category_id')
                 // ->get();
-                dd($results->toArray());
+
             }
             return entityResponse($data);
         } catch (\Exception $e) {

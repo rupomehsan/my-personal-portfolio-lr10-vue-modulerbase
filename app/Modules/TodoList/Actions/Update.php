@@ -8,11 +8,15 @@ class Update
 {
     static $model = \App\Modules\TodoList\Models\Model::class;
 
-    public static function execute(Validation $request,$id)
+    public static function execute(Validation $request, $id)
     {
         try {
+            // dd($request->all());
             if (!$data = self::$model::query()->where('id', $id)->first()) {
                 return messageResponse('Data not found...', 404, 'error');
+            }
+            if ($request->is_task_complete) {
+                $data->is_complete =  $data->is_complete == 0 ? 1 : 0;
             }
             $requestData = $request->validated();
             $data->update($requestData);

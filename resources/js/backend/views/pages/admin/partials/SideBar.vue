@@ -25,8 +25,8 @@
                     title: `Blogs`,
                 },
             ]" />
-
-            <side-bar-single-menu :icon="`fa fa-plus`" :menu_title="`TodoList`" :route_name="'AllTodoList'" />
+            <li class="menu-label mt-0">Task Management</li>
+            <side-bar-single-menu :icon="`fa fa-plus`" :menu_title="`Todo List`" :route_name="'AllTodoList'" />
 
 
         </ul>

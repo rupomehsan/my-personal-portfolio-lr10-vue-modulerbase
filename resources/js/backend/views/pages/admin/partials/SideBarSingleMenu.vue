@@ -1,5 +1,5 @@
 <template>
-    <li>
+    <li style="border: 1px solid rgba(128, 128, 128, 0.267);">
         <router-link :to="{name: route_name}">
             <div class="parent-icon"><i :class="icon"></i></div>
             <div class="menu-title">{{ menu_title }}</div>

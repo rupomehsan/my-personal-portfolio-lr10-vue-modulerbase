@@ -33,48 +33,35 @@
                         <table class="table table-hover text-center table-bordered">
                             <thead>
                                 <tr>
-                                    <th class="w-10"><input type="checkbox" v-model="parent_item"
-                                            @click="toggleParentCheckbox"></th>
+
                                     <th class="text-start">SL</th>
                                     <th>title</th>
-                                    <th>status</th>
+                                    <th>Total List</th>
                                     <th class="text-end">Action</th>
                                 </tr>
                             </thead>
-                            <tbody v-if="all_data.data?.length">
-                                <tr v-for="(item, index) in all_data.data" :key="item.id">
-                                    <td class="w-10">
-                                        <input @click="toggleChildCheckbox(item.id)"
-                                            :checked="child_items.includes(item.id)" type="checkbox">
-                                    </td>
+                            <tbody v-if="loaded">
+                                <tr v-for="(item, index) in all_data" :key="index">
+
                                     <td class="text-start">{{ index + 1 }}</td>
-                                    <td>{{ item.title }}</td>
-                                    <td>{{ item.status }}</td>
+                                    <td>{{ item.category?.title }}</td>
+                                    <td>{{ item.count }}</td>
                                     <td style="width: 100px;">
                                         <div class="d-flex justify-content-between gap-2">
                                             <!-- <router-link class="btn btn-sm btn-outline-success "
                                                         :to="{ name: `Create${route_prefix}` }">
                                                         <i class="fa fa-eye"></i>
                                                     </router-link> -->
-                                            <router-link class="btn btn-sm btn-outline-warning mx-2" :to="{
-                            name: `Create${route_prefix}`, query: {
-                                id: item.id,
-                            },
-                        }">
-                                                <i class="fa fa-pencil"></i>
-                                            </router-link>
+
                                             <router-link title="Details" class="btn btn-sm btn-outline-warning mx-2"
                                                 :to="{
                             name: `Details${route_prefix}`, params: {
-                                id: item.id,
+                                id: item.category_id,
                             },
                         }">
                                                 <i class="fa fa-book"></i>
                                             </router-link>
-                                            <a @click.prevent="delete_data(item.id)"
-                                                class="btn btn-sm btn-outline-danger ">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
+
                                         </div>
                                     </td>
                                 </tr>
@@ -109,12 +96,18 @@ export default {
         route_prefix: '',
         page_title: '',
         parent_item: false,
-        child_items: []
+        child_items: [],
+        loaded: false
     }),
     created: function () {
         this.route_prefix = setup.route_prefix;
         this.page_title = setup.page_title;
         this.get_all_data()
+        this.loaded = true
+
+        console.log(this.all_data);
+
+
     },
     methods: {
         ...mapActions(todo_list_setup_store, {

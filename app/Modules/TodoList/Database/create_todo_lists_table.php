@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->bigInteger('category_id')->nullable();
             $table->bigInteger('priority')->nullable();
-            $table->tinyInteger('is_complete')->nullable();
+            $table->tinyInteger('is_complete')->default(0);
             $table->string('progress')->nullable();
             $table->bigInteger('creator')->unsigned()->nullable();
             $table->string('slug', 50)->nullable();
