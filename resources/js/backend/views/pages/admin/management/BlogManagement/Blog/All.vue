@@ -54,10 +54,10 @@
                                     <td>{{ item.status }}</td>
                                     <td style="width: 100px;">
                                         <div class="d-flex justify-content-between gap-2">
-                                            <!-- <router-link class="btn btn-sm btn-outline-success "
+                                            <router-link class="btn btn-sm btn-outline-success "
                                                         :to="{ name: `Create${route_prefix}` }">
                                                         <i class="fa fa-eye"></i>
-                                                    </router-link> -->
+                                                    </router-link>
                                             <router-link class="btn btn-sm btn-outline-warning mx-2" :to="{
                                                 name: `Create${route_prefix}`, query: {
                                                     id: item.id,

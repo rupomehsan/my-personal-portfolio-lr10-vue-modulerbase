@@ -52,7 +52,7 @@ export default {
         }
     },
     created() {
-
+        this.value = this.images[0]
     },
     methods: {
         preview: function () {

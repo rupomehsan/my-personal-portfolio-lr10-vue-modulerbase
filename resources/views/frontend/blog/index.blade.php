@@ -107,6 +107,68 @@
             width: 100%;
             z-index: 9;
         }
+
+
+
+
+
+
+        .cards {
+            display: flex;
+        }
+
+        .card {
+            margin: 10px;
+            width: 300px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+
+            .image {
+                img {
+                    max-width: 100%;
+                    border-top-left-radius: 5px;
+                    border-top-right-radius: 5px;
+                }
+            }
+
+            .content {
+                padding: 20px 30px;
+            }
+        }
+
+        .card.is-loading {
+
+            .image,
+            h2,
+            p {
+                background: #eee;
+                background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+                border-radius: 5px;
+                background-size: 200% 100%;
+                animation: 1.5s shine linear infinite;
+            }
+
+            .image {
+                height: 200px;
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+
+            h2 {
+                height: 30px;
+            }
+
+            p {
+                height: 70px;
+            }
+        }
+
+        @keyframes shine {
+            to {
+                background-position-x: -200%;
+            }
+        }
     </style>
     <section id="loginPage"> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
         <span></span>
@@ -149,52 +211,16 @@
     <div class="row my80">
         @foreach ($allBlogs as $blog)
         <div class="col-md-4">
-            <div class="column">
-                <!-- Post-->
-                <div class="post-module">
-                    <!-- Thumbnail-->
-                    <div class="thumbnail">
-                        <div class="date">
-                            <div class="day">{{$blog->created_at->format('d')}}</div>
-                            <div class="month">{{$blog->created_at->format('M')}}</div>
-                        </div>
-                        @if ($blog->blog_type == 'Image')
-                        <img src="{{asset($blog->thumbnail_image)}}" class="w-100 " alt="" style="min-height:300px;">
-                        @else
-                        @php
-                        $originalUrl = $blog->url;
-                        $parsedUrl = parse_url($originalUrl);
-                        parse_str($parsedUrl['query'], $queryParams);
-                        $videoId = $queryParams['v'];
-                        $embeddedUrl = "https://www.youtube.com/embed/{$videoId}";
-                        @endphp
-                        <div style="height:300px;">
-                            <iframe class="w-100 h-100" src="{{$embeddedUrl}}"
-                                title="Full Stack Airbnb Clone with Next.js 13 App Router: React, Tailwind, Prisma, MongoDB, NextAuth 2023"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowfullscreen></iframe>
-                        </div>
-                        @endif
-
-                    </div>
-                    <!-- Post Content-->
-                    <div class="post-content">
-                        <div class="category"> <a href="{{route('blog.single',$blog->slug)}}">Details</a></div>
-                        <h1 class="title">{{$blog->title}}</h1>
-                        <h2 class="sub_title">{!! $blog->description !!}</h2>
-                        <div class="post-meta">
-                            <span class="timestamp">
-                                <i class="fa fa-clock-"></i>
-                                {{Carbon\Carbon::parse($blog->created_at)->diffForHumans()}}
-                            </span>
-                            <span class="comments">
-                                <i class="fa fa-comments"></i>
-                                <a href="#"> 39 comments</a>
-                            </span>
-                        </div>
+            <div class="cards">
+                <div class="card is-loading">
+                    <div class="image"></div>
+                    <div class="content">
+                        <h2></h2>
+                        <p></p>
+                        <p></p>
                     </div>
                 </div>
+
             </div>
 
         </div>

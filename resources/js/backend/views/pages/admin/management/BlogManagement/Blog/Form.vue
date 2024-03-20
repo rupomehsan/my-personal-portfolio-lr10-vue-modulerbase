@@ -93,8 +93,6 @@ export default {
     }),
     created: async function () {
 
-
-
         let id = this.$route.query.id;
         this.route_prefix = setup.route_prefix;
 

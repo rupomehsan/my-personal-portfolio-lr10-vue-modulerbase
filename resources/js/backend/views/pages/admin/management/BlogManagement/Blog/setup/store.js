@@ -8,7 +8,7 @@ export const blog_setup_store = defineStore("blog_setup_store", {
         role_data: {},
         set_categories_data: [],
         set_blog_tags: [],
-        api: "blogs/"
+        api: "blogs"
     }),
     getters: {
         doubleCount: (state) => state.count * 2,
@@ -26,7 +26,7 @@ export const blog_setup_store = defineStore("blog_setup_store", {
         },
 
         get: async function (id) {
-            let response = await axios.get(this.api + id);
+            let response = await axios.get(`${this.api}/${id}`);
             response = response.data.data;
             this.single_data = response;
             this.set_blog_tags = []
@@ -47,21 +47,21 @@ export const blog_setup_store = defineStore("blog_setup_store", {
             let final_category = this.set_categories_data.map(item => item.id)
             formData.append('blog_category_id', JSON.stringify(final_category))
             formData.append('tags', JSON.stringify(this.set_blog_tags))
-            let response = await axios.post(`${this.api}${id}?_method=PATCH`, formData);
+            let response = await axios.post(`${this.api}/${id}?_method=PATCH`, formData);
             return response;
         },
 
         delete: async function (id) {
             var data = await window.s_confirm();
             if (data) {
-                let response = await axios.delete(this.api + id);
+                let response = await axios.delete(`${this.api}/${id}`);
                 window.s_alert("Data deleted");
                 this.all();
                 console.log(response.data);
             }
         },
         bulk_action: async function (action, data) {
-            let response = await axios.post(`${this.api}bulk-action`, { action, data })
+            let response = await axios.post(`${this.api}/bulk-action`, { action, data })
             if (response.data.status === "success") {
                 window.s_alert(response.data.message);
                 this.all();

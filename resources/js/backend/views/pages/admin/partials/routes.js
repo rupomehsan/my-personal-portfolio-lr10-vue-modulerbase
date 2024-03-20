@@ -10,11 +10,11 @@ import totdo_list_routes from "../management/TodoList/setup/routes";
 
 
 const routes = {
-    path: '/dashboard',
+    path: '/',
     component: Layout,
     children: [
         {
-            path: '',
+            path: 'dashboard',
             component: Dashboard,
             name: 'adminDashboard',
         },
