@@ -159,7 +159,6 @@ export default {
                     if (value[0] == 'tags') {
                         let tagData = value[1].split(',')
                         tagData.pop()
-
                         tagData.forEach((item) => {
                             this.set_tags(item)
                         })
@@ -172,6 +171,11 @@ export default {
             this.form_fields.forEach((item) => {
                 item.value = null;
             });
+
+            this.set_categories('empty')
+            this.set_tags('empty')
+
+
         }
 
     },
