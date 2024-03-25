@@ -15,8 +15,10 @@
                                 <span class="caret"></span>
                             </button>
                             <div class="dropdown-menu" style="" id="table-actions">
-                                <a href="javaScript:void();" class="dropdown-item" @click="bulkActions('delete')">Delete</a>
-                                <a href="javaScript:void();" class="dropdown-item" @click="bulkActions('active')">Active</a>
+                                <a href="javaScript:void();" class="dropdown-item"
+                                    @click="bulkActions('delete')">Delete</a>
+                                <a href="javaScript:void();" class="dropdown-item"
+                                    @click="bulkActions('active')">Active</a>
                                 <a href="javaScript:void();" class="dropdown-item"
                                     @click="bulkActions('inactive')">Inactive</a>
 
@@ -47,25 +49,27 @@
                                             :checked="child_items.includes(item.id)" type="checkbox">
                                     </td>
                                     <td class="text-start">{{ index + 1 }}</td>
-                                    <td>{{ item.title.substr(0,10) }}</td>
+                                    <td>{{ item.title.substr(0, 10) }}</td>
                                     <td>
-                                        <img :src="item.thumbnail_image" height="40" width="100" alt="">
+                                        <img :src="item.thumbnail_image"
+                                            height="40" width="100" alt="">
                                     </td>
                                     <td>{{ item.status }}</td>
                                     <td style="width: 100px;">
                                         <div class="d-flex justify-content-between gap-2">
                                             <router-link class="btn btn-sm btn-outline-success "
-                                                        :to="{ name: `Create${route_prefix}` }">
-                                                        <i class="fa fa-eye"></i>
-                                                    </router-link>
+                                                :to="{ name: `Details${route_prefix}`, params: { id: item.id } }">
+                                                <i class="fa fa-eye"></i>
+                                            </router-link>
                                             <router-link class="btn btn-sm btn-outline-warning mx-2" :to="{
-                                                name: `Create${route_prefix}`, query: {
-                                                    id: item.id,
-                                                },
-                                            }">
+                            name: `Create${route_prefix}`, query: {
+                                id: item.id,
+                            },
+                        }">
                                                 <i class="fa fa-pencil"></i>
                                             </router-link>
-                                            <a @click.prevent="delete_data(item.id)" class="btn btn-sm btn-outline-danger ">
+                                            <a @click.prevent="delete_data(item.id)"
+                                                class="btn btn-sm btn-outline-danger ">
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                         </div>

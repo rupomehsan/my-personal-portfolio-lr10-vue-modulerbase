@@ -72,7 +72,7 @@ export default {
             }
         } else {
             this.form_fields.forEach((item) => {
-                item.value = item.value;
+                item.value = null;
             });
         }
     },

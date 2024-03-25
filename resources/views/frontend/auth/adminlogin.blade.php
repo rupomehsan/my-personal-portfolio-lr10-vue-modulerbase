@@ -141,14 +141,17 @@
         <div class="content">
 
             <h2>Admin Login</h2>
+            <div id="errorMsgShow"> </div>
 
             <form class="contact100-form" onsubmit="submitHandler()" method="POST">
                 <div class="wrap-input100 validate-input mt-20" data-validate="Valid email is required: ex@abc.xyz">
-                    <input id="" class="input100" type="email" name="email" placeholder="Enter your email" onchange="errorReset(event)">
+                    <input id="" class="input100" type="email" name="email" placeholder="Enter your email"
+                        onchange="errorReset(event)">
                     <p class="alert-warning" id="email"></p>
                 </div>
                 <div class="wrap-input100 validate-input mt-20" data-validate="Valid email is required: ex@abc.xyz">
-                    <input id="" class="input100" type="password" name="password" placeholder="Enter your password" onchange="errorReset(event)">
+                    <input id="" class="input100" type="password" name="password" placeholder="Enter your password"
+                        onchange="errorReset(event)">
                     <p class="alert-warning" id="password"></p>
                 </div>
                 <div class="d-flex justify-content-center align-items-center w-100">
@@ -186,13 +189,16 @@
                         }
                     });
                 } else if (data.status === 'error') {
-                        let showMessage = document.getElementById('showMessage')
-                        let toasterMessage = document.getElementById('toasterMessage')
-                        toasterMessage.style.display = 'block'
-                        showMessage.innerText = data.message
+                    const errorMsgShow = document.getElementById('errorMsgShow');
+                    errorMsgShow.textContent = 'Error! ' + data.message;
+                    errorMsgShow.classList.add('alert', 'alert-danger', 'alert-dismissible', 'fade', 'show');
+                    setTimeout(() => {
+                        errorMsgShow.classList.remove('show');
                         setTimeout(() => {
-                            toasterMessage.style.display = 'none'
-                        }, 3000);
+                            errorMsgShow.textContent = '';
+                            errorMsgShow.classList.remove('alert', 'alert-danger', 'alert-dismissible', 'fade');
+                        }, 500);
+                    }, 3000);
                 } else {
                     localStorage.setItem('token', data.access_token);
                     window.location.href = '/admin#/dashboard/';
